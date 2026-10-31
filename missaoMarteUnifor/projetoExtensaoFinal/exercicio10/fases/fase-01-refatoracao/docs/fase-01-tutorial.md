@@ -16,23 +16,23 @@ Esta fase refatora o jogo console para separar regras de jogo da interface textu
 
 ### SOLID
 
-| Sigla | Princípio | Ideia central |
-|---|---|---|
-| S | Single Responsibility | Uma classe deve ter um único motivo para mudar. |
-| O | Open/Closed | Aberta para extensão, fechada para modificação. |
-| L | Liskov Substitution | Subtipos devem poder substituir seus tipos base sem quebrar o uso. |
-| I | Interface Segregation | Interfaces pequenas e específicas. |
-| D | Dependency Inversion | Depender de abstrações, não de implementações concretas. |
+| Sigla | Princípio            | Ideia central                                                      |
+| ----- | --------------------- | ------------------------------------------------------------------ |
+| S     | Single Responsibility | Uma classe deve ter um único motivo para mudar.                   |
+| O     | Open/Closed           | Aberta para extensão, fechada para modificação.                 |
+| L     | Liskov Substitution   | Subtipos devem poder substituir seus tipos base sem quebrar o uso. |
+| I     | Interface Segregation | Interfaces pequenas e específicas.                                |
+| D     | Dependency Inversion  | Depender de abstrações, não de implementações concretas.      |
 
 ### GRASP
 
-- Information Expert: a responsabilidade fica com quem tem a informação.
-- Creator: quem agrega ou usa os objetos cria os objetos.
-- Controller: um objeto recebe e coordena eventos do sistema, sem conter a interface.
-- Low Coupling e High Cohesion: poucas dependências e responsabilidades coesas.
-- Polymorphism: comportamento variável resolvido por tipo, sem `if` por tipo.
-- Pure Fabrication: classe artificial criada para manter coesão (não existe no domínio).
-- Indirection e Protected Variations: um intermediário isola o ponto de variação.
+- **Information Expert**: a responsabilidade fica com quem tem a informação.
+- **Creator:** quem agrega ou usa os objetos cria os objetos.
+- **Controller:** um objeto recebe e coordena eventos do sistema, sem conter a interface.
+- **Low Coupling e High Cohesion:** poucas dependências e responsabilidades coesas.
+- **Polymorphism:** comportamento variável resolvido por tipo, sem `if` por tipo.
+- **Pure Fabrication:** classe artificial criada para manter coesão (não existe no domínio).
+- **Indirection e Protected Variations:** um intermediário isola o ponto de variação.
 
 ### Padrões de projeto
 
@@ -76,17 +76,17 @@ flowchart LR
 
 ### 6.2 Para onde foi cada responsabilidade
 
-| Responsabilidade | Original (`Main`) | Fase 01 |
-|---|---|---|
-| Menu e loop de entrada | `main`, `lerLinha` | `ConsoleGame` |
-| Regras de turno e vitória | `jogarPartida` | `GameSession` |
-| Resultado de um turno | variáveis locais | `ResultadoTurno`, `EstadoPartida` |
-| Comando do jogador | `String` comparada em `if` | `Acao.fromInput` |
-| Criação do cenário | `posicaoOcupada` e geração inline | `MissaoFactory` |
-| Parâmetros de dificuldade | `definirPontuacaoInicial` | `RegrasDificuldade`, `ConfiguracaoDificuldade` |
-| Desenho do mapa e legenda | `desenharMapa` | `ConsoleRenderer` |
-| Persistência do ranking | `loadRanking`, `saveRanking` | `RankingRepository`, `FileRankingRepository` |
-| Composição | `main` | `Main` |
+| Responsabilidade           | Original (`Main`)                   | Fase 01                                            |
+| -------------------------- | ------------------------------------- | -------------------------------------------------- |
+| Menu e loop de entrada     | `main`, `lerLinha`                | `ConsoleGame`                                    |
+| Regras de turno e vitória | `jogarPartida`                      | `GameSession`                                    |
+| Resultado de um turno      | variáveis locais                     | `ResultadoTurno`, `EstadoPartida`              |
+| Comando do jogador         | `String` comparada em `if`        | `Acao.fromInput`                                 |
+| Criação do cenário      | `posicaoOcupada` e geração inline | `MissaoFactory`                                  |
+| Parâmetros de dificuldade | `definirPontuacaoInicial`           | `RegrasDificuldade`, `ConfiguracaoDificuldade` |
+| Desenho do mapa e legenda  | `desenharMapa`                      | `ConsoleRenderer`                                |
+| Persistência do ranking   | `loadRanking`, `saveRanking`      | `RankingRepository`, `FileRankingRepository`   |
+| Composição               | `main`                              | `Main`                                           |
 
 ### 6.3 Ajustes de regra feitos durante a validação funcional
 
@@ -162,40 +162,40 @@ Nave nave = new Nave(0, 0, 3, cfg.getQuantidadePassageiros());
 
 ## 8. Onde foi usado SOLID
 
-| Princípio | Onde | Como |
-|---|---|---|
-| SRP | `GameSession`, `ConsoleGame`, `ConsoleRenderer`, `MissaoFactory`, `FileRankingRepository` | Cada classe tem um motivo para mudar: regra de partida, fluxo de menu, desenho, criação de cenário, persistência. |
-| OCP | `ObjetoRenderizavel`, `Perigo`, `Passageiro` | Um novo tipo de passageiro ou perigo que implemente a interface aparece no mapa sem mudar `desenharMapa`. Limite: `Dificuldade`, `RegrasDificuldade` e `MissaoFactory.criarPassageiroAleatorio` usam `switch`/`if` e precisam ser editados para novos casos. |
-| LSP | `Professor`, `Engenheiro`, `Astronauta` estendem `Passageiro`; `Asteroide` e `Inimigo` implementam `Perigo` | `Missao`, `Nave` e `GameSession` tratam qualquer subtipo como `Passageiro` ou `Perigo` sem checar o tipo. |
-| ISP | `ObjetoRenderizavel` (2 métodos), `RankingRepository` (2 métodos), `Perigo` | Interfaces pequenas; o renderer só conhece posição e símbolo. |
-| DIP | `ConsoleGame` depende de `RankingRepository` | O fluxo do jogo não conhece o arquivo JSON; `FileRankingRepository` é injetado em `Main`. Limite: `ConsoleGame` ainda depende das classes concretas `ConsoleRenderer` e `MissaoFactory`. |
+| Princípio | Onde                                                                                                                      | Como                                                                                                                                                                                                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| SRP        | `GameSession`, `ConsoleGame`, `ConsoleRenderer`, `MissaoFactory`, `FileRankingRepository`                       | Cada classe tem um motivo para mudar: regra de partida, fluxo de menu, desenho, criação de cenário, persistência.                                                                                                                                                    |
+| OCP        | `ObjetoRenderizavel`, `Perigo`, `Passageiro`                                                                        | Um novo tipo de passageiro ou perigo que implemente a interface aparece no mapa sem mudar `desenharMapa`. Limite: `Dificuldade`, `RegrasDificuldade` e `MissaoFactory.criarPassageiroAleatorio` usam `switch`/`if` e precisam ser editados para novos casos. |
+| LSP        | `Professor`, `Engenheiro`, `Astronauta` estendem `Passageiro`; `Asteroide` e `Inimigo` implementam `Perigo` | `Missao`, `Nave` e `GameSession` tratam qualquer subtipo como `Passageiro` ou `Perigo` sem checar o tipo.                                                                                                                                                      |
+| ISP        | `ObjetoRenderizavel` (2 métodos), `RankingRepository` (2 métodos), `Perigo`                                       | Interfaces pequenas; o renderer só conhece posição e símbolo.                                                                                                                                                                                                        |
+| DIP        | `ConsoleGame` depende de `RankingRepository`                                                                          | O fluxo do jogo não conhece o arquivo JSON; `FileRankingRepository` é injetado em `Main`. Limite: `ConsoleGame` ainda depende das classes concretas `ConsoleRenderer` e `MissaoFactory`.                                                                     |
 
 ## 9. Onde foi usado GRASP
 
-| Padrão GRASP | Onde | Como |
-|---|---|---|
-| Controller | `ConsoleGame` | Recebe a entrada do jogador, traduz para `Acao` e delega a `GameSession`. |
-| Information Expert | `Posicao.mover`, `Nave.estaCheia`, `Nave.embarcar`, `Missao.houveColisaoComPerigo`, `Perigo.colideCom`, `Inimigo.moverAleatoriamente` | A regra fica com o objeto que possui os dados. |
-| Creator | `MissaoFactory` | Cria `Nave`, `Passageiro`, `Asteroide` e `Inimigo` e os adiciona a `Missao`. `Missao` cria a `Base`. |
-| Low Coupling | camadas `domain` e `application` | Não importam nada de `console` nem de `infrastructure`. |
-| High Cohesion | classes pequenas por responsabilidade | `GameSession` só trata regras de turno; `ConsoleRenderer` só trata saída. |
-| Polymorphism | `getSimbolo()`, `getPontuacao()` | Cada tipo informa a própria pontuação (Professor 20, Engenheiro 15, Astronauta 25, base 10) e o símbolo, sem `if` por tipo. |
-| Pure Fabrication | `GameSession`, `ResultadoTurno`, `MissaoFactory`, `FileRankingRepository` | Classes que não existem no domínio, criadas para manter coesão. |
-| Indirection / Protected Variations | `RankingRepository`, `ObjetoRenderizavel`, `Acao` | Isolam os pontos que mais tendem a mudar: persistência, forma de desenhar e forma de entrada. |
+| Padrão GRASP                      | Onde                                                                                                                                              | Como                                                                                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Controller                         | `ConsoleGame`                                                                                                                                   | Recebe a entrada do jogador, traduz para `Acao` e delega a `GameSession`.                                                     |
+| Information Expert                 | `Posicao.mover`, `Nave.estaCheia`, `Nave.embarcar`, `Missao.houveColisaoComPerigo`, `Perigo.colideCom`, `Inimigo.moverAleatoriamente` | A regra fica com o objeto que possui os dados.                                                                                    |
+| Creator                            | `MissaoFactory`                                                                                                                                 | Cria `Nave`, `Passageiro`, `Asteroide` e `Inimigo` e os adiciona a `Missao`. `Missao` cria a `Base`.                |
+| Low Coupling                       | camadas `domain` e `application`                                                                                                              | Não importam nada de `console` nem de `infrastructure`.                                                                      |
+| High Cohesion                      | classes pequenas por responsabilidade                                                                                                             | `GameSession` só trata regras de turno; `ConsoleRenderer` só trata saída.                                                  |
+| Polymorphism                       | `getSimbolo()`, `getPontuacao()`                                                                                                              | Cada tipo informa a própria pontuação (Professor 20, Engenheiro 15, Astronauta 25, base 10) e o símbolo, sem `if` por tipo. |
+| Pure Fabrication                   | `GameSession`, `ResultadoTurno`, `MissaoFactory`, `FileRankingRepository`                                                                 | Classes que não existem no domínio, criadas para manter coesão.                                                                |
+| Indirection / Protected Variations | `RankingRepository`, `ObjetoRenderizavel`, `Acao`                                                                                           | Isolam os pontos que mais tendem a mudar: persistência, forma de desenhar e forma de entrada.                                    |
 
 ## 10. Padrões de projeto utilizados
 
-| Padrão | Onde | Observação |
-|---|---|---|
-| Factory | `MissaoFactory` | Centraliza a montagem do cenário por dificuldade. |
-| Repository | `RankingRepository` / `FileRankingRepository` | Esconde o formato e o local de armazenamento. |
-| Value Object | `Posicao` | Imutável (`final`), com `equals` e `hashCode`; `mover` devolve nova instância. |
-| Composição | `Nave`, `Passageiro`, `Base` e perigos possuem uma `Posicao` | Evita herdar só para ter x e y. |
-| Herança com sobrescrita | `Passageiro` e seus subtipos | Subtipos sobrescrevem `getPontuacao()` e `getSimbolo()`. |
-| Default method | `Perigo.colideCom` | Comportamento comum compartilhado por interface. |
-| Enum com fábrica estática | `Acao.fromInput`, `Dificuldade.deString` | Traduz texto em valor tipado em um único lugar. |
-| Injeção de dependência manual | `Main` | Monta o grafo de objetos e passa pelo construtor. |
-| Objeto de configuração | `ConfiguracaoDificuldade` + `RegrasDificuldade.obter` | Tabela de parâmetros por dificuldade. |
+| Padrão                          | Onde                                                                 | Observação                                                                             |
+| -------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Factory                          | `MissaoFactory`                                                    | Centraliza a montagem do cenário por dificuldade.                                       |
+| Repository                       | `RankingRepository` / `FileRankingRepository`                    | Esconde o formato e o local de armazenamento.                                            |
+| Value Object                     | `Posicao`                                                          | Imutável (`final`), com `equals` e `hashCode`; `mover` devolve nova instância. |
+| Composição                     | `Nave`, `Passageiro`, `Base` e perigos possuem uma `Posicao` | Evita herdar só para ter x e y.                                                         |
+| Herança com sobrescrita         | `Passageiro` e seus subtipos                                       | Subtipos sobrescrevem `getPontuacao()` e `getSimbolo()`.                             |
+| Default method                   | `Perigo.colideCom`                                                 | Comportamento comum compartilhado por interface.                                         |
+| Enum com fábrica estática      | `Acao.fromInput`, `Dificuldade.deString`                         | Traduz texto em valor tipado em um único lugar.                                         |
+| Injeção de dependência manual | `Main`                                                             | Monta o grafo de objetos e passa pelo construtor.                                        |
+| Objeto de configuração         | `ConfiguracaoDificuldade` + `RegrasDificuldade.obter`            | Tabela de parâmetros por dificuldade.                                                   |
 
 Observação: a versão anterior deste tutorial citava Strategy para a dificuldade. No código atual a dificuldade é uma tabela de configuração (`switch` + objeto de valores), não uma família de estratégias intercambiáveis. Virar Strategy é um exercício proposto abaixo.
 

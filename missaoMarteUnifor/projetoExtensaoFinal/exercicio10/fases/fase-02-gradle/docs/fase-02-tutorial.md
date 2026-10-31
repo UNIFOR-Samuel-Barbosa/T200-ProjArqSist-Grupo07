@@ -260,6 +260,34 @@ Por causa do cache em `~/.gradle/caches/`, o segundo build é muito mais rápido
 
 **No projeto:** o código de produção só usa a biblioteca padrão, então não há `implementation`. Há duas dependências de teste: `testImplementation` (API do JUnit 5) e `testRuntimeOnly` (o *launcher* da plataforma JUnit, necessário apenas na execução dos testes).
 
+#### JUnit 5 e testes automatizados
+
+**JUnit 5** é uma família de ferramentas para escrever e executar testes automatizados em Java. Um teste chama o código que queremos verificar e compara o resultado obtido com o resultado esperado. Assim, podemos conferir comportamentos repetidamente, sem executar o jogo inteiro nem verificar cada resultado manualmente. Os testes ajudam a encontrar regressões, mas não provam que o programa inteiro está livre de erros.
+
+No JUnit 5, a anotação `@Test` identifica um método de teste. As *asserções*, como `assertEquals`, comparam valores e fazem o teste falhar quando o resultado não corresponde ao esperado:
+
+```java
+package br.edu.unifor.missaomarte.domain;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+class PosicaoTest {
+
+    @Test
+    void moverAplicaODeslocamento() {
+        Posicao resultado = new Posicao(0, 0).mover(1, -1, -5, 5);
+
+        assertEquals(new Posicao(1, -1), resultado);
+    }
+}
+```
+
+Esse teste verifica que mover uma posição `(0, 0)` pelo deslocamento `(1, -1)`, dentro dos limites definidos, produz a posição `(1, -1)`. Se o método devolver outro valor, o JUnit registra a falha e mostra a comparação esperada com a obtida.
+
+O JUnit 5 organiza a execução em componentes: **JUnit Jupiter** fornece a API e o mecanismo usados por esses testes; a **JUnit Platform** localiza e executa os testes. No `build.gradle`, `testImplementation` disponibiliza a biblioteca para compilar os testes, `testRuntimeOnly` disponibiliza o *launcher* durante a execução, e `useJUnitPlatform()` configura a tarefa `test` do Gradle para usar essa plataforma. Assim, `.\gradlew.bat test` compila e executa os testes, apresentando um resumo de sucessos e falhas.
+
 ### 3.9 O Gradle Wrapper
 
 *(Referencial: "O Gradle Wrapper em Detalhes")*

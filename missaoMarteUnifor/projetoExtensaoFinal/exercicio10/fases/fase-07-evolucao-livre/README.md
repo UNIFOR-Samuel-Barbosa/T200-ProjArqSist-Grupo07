@@ -54,13 +54,13 @@ cd exercicio10\fases\fase-07-evolucao-livre\cliente
 
 Opções do desktop:
 
-| Opção | Efeito |
-| --- | --- |
-| `-Dmissaomarte.toque=true` | Modo toque: o mouse faz o papel do dedo, com botões virtuais e o layout responsivo |
-| `-Dmissaomarte.janela=540x1200` | Tamanho da janela, para simular telas de celular (retrato, 4:3, etc.) |
-| `-Dmissaomarte.servidor=http://localhost:8080` | Endereço padrão do servidor |
-| `-Dmissaomarte.semente=4` | Cenário reproduzível (a primeira partida) |
-| `-Dmissaomarte.semaudio=true` | Sem áudio |
+| Opção                                          | Efeito                                                                              |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `-Dmissaomarte.toque=true`                     | Modo toque: o mouse faz o papel do dedo, com botões virtuais e o layout responsivo |
+| `-Dmissaomarte.janela=540x1200`                | Tamanho da janela, para simular telas de celular (retrato, 4:3, etc.)               |
+| `-Dmissaomarte.servidor=http://localhost:8080` | Endereço padrão do servidor                                                       |
+| `-Dmissaomarte.semente=4`                      | Cenário reproduzível (a primeira partida)                                         |
+| `-Dmissaomarte.semaudio=true`                  | Sem áudio                                                                          |
 
 Instalar no celular, endereço do servidor e publicação: veja o [README da Fase 6](../fase-06-android/README.md) e o `servidor/DEPLOY.md` (nada disso mudou).
 
@@ -68,30 +68,30 @@ Instalar no celular, endereço do servidor e publicação: veja o [README da Fas
 
 Na tela **Nova partida** escolha a dificuldade e o modo (setas esquerda/direita mudam a dificuldade; cima/baixo ou `Tab` mudam o modo; no toque, os botões `<` e `>`).
 
-| | Dinâmico (padrão) | Clássico |
-| --- | --- | --- |
-| Tempo | Corre sozinho. Contagem de 3 s antes de começar | Espera a sua jogada |
-| Nave | Anda 1 célula a cada 0,15 s **enquanto a direção estiver pressionada** | Uma célula por tecla (a tecla segurada repete) |
-| Embarque | Automático ao passar sobre o passageiro | Tecla `E` |
-| Pontuação | −1 ponto por segundo | −1 ponto por movimento |
-| Inimigos | Andam no ritmo da dificuldade (0,9 s, 0,7 s ou 0,5 s por passo) | Andam a cada jogada |
-| Perseguidores | Médio: 1. Difícil: 2 | Não há |
-| Tiro | 3 disparos, 2 pontos cada, recarga de 0,6 s | Não há |
-| Pausa | Sim | Não |
+|               | Dinâmico (padrão)                                                             | Clássico                                       |
+| ------------- | ------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Tempo         | Corre sozinho. Contagem de 3 s antes de começar                                | Espera a sua jogada                             |
+| Nave          | Anda 1 célula a cada 0,15 s **enquanto a direção estiver pressionada** | Uma célula por tecla (a tecla segurada repete) |
+| Embarque      | Automático ao passar sobre o passageiro                                        | Tecla `E`                                     |
+| Pontuação   | −1 ponto por segundo                                                           | −1 ponto por movimento                         |
+| Inimigos      | Andam no ritmo da dificuldade (0,9 s, 0,7 s ou 0,5 s por passo)                 | Andam a cada jogada                             |
+| Perseguidores | Médio: 1. Difícil: 2                                                          | Não há                                        |
+| Tiro          | 3 disparos, 2 pontos cada, recarga de 0,6 s                                     | Não há                                        |
+| Pausa         | Sim                                                                             | Não                                            |
 
 O **perseguidor** (disco azul com alienígena laranja) anda um passo em direção à nave e é mais lento que ela (0,8 s no médio, 0,55 s no difícil). O **tiro** sai na última direção pressionada e destrói o primeiro asteroide ou inimigo da linha.
 
 ## Controles
 
-| Ação | Teclado | Toque |
-| --- | --- | --- |
-| Mover (dinâmico) | `W A S D` ou setas, **segurando** | Segurar uma seta |
-| Mover (clássico) | `W A S D` ou setas | Setas (repetem ao segurar) |
-| Atirar | `F` ou `Espaço` (controle: `A`) | Botão Atirar |
-| Embarcar (clássico) | `E` | Botão Embarcar |
-| Pausa | `P` | Botão Pausa; tecla Voltar do Android |
-| Som | `M` | Botão Som |
-| Abortar | `Q` ou `Esc` (controle: `B`) | Botão Abortar |
+| Ação               | Teclado                                   | Toque                                 |
+| -------------------- | ----------------------------------------- | ------------------------------------- |
+| Mover (dinâmico)    | `W A S D` ou setas, **segurando** | Segurar uma seta                      |
+| Mover (clássico)    | `W A S D` ou setas                      | Setas (repetem ao segurar)            |
+| Atirar               | `F` ou `Espaço` (controle: `A`)    | Botão Atirar                         |
+| Embarcar (clássico) | `E`                                     | Botão Embarcar                       |
+| Pausa                | `P`                                     | Botão Pausa; tecla Voltar do Android |
+| Som                  | `M`                                     | Botão Som                            |
+| Abortar              | `Q` ou `Esc` (controle: `B`)        | Botão Abortar                        |
 
 O resto (menu, entrada, ranking, servidor) é como na Fase 6.
 

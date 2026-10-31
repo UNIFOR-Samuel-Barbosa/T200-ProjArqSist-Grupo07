@@ -21,10 +21,10 @@ Jogo de exploração e resgate em Marte, executado em modo texto pelo terminal. 
 
 ## Estrutura
 
-As classes Java ficam diretamente em `src` e usam o pacote padrão, sem declaração `package`.
+As classes Java ficam em `src` dentro da pasta `fase-0-oopuro` e usam o pacote padrão, sem declaração `package`.
 
 ```text
-exercicio10/
+fase-0-oopuro/
 └── src/
     ├── Asteroide.java
     ├── Astronauta.java
@@ -41,10 +41,11 @@ exercicio10/
 
 ## Compilar e executar
 
-Execute os comandos a partir da pasta `exercicio10`, que contém a pasta `src`:
+Execute os comandos a partir da pasta `fase-0-oopuro`:
 
-```bash
-javac -encoding UTF-8 -d out src/*.java
+```powershell
+$files = Get-ChildItem -Recurse src -Filter *.java | ForEach-Object FullName
+javac -encoding UTF-8 -d out $files
 java -cp out Main
 ```
 
