@@ -1,12 +1,12 @@
 # Missão Marte - Evolução Arquitetural
 
-Projeto de ensino de evolução arquitetural de software: o jogo do Exercício 10 é transformado em fases independentes. O código original fica preservado em `exercicio10/src`.
+Projeto de ensino de evolução arquitetural de software: o jogo do Exercício 10 é transformado em fases independentes. O projeto inicial, em modo texto, está preservado na Fase 0.
 
 ## Fases
 
 | Fase | Pasta | Situação |
 |---|---|---|
-| Original | `exercicio10/src` | Preservado, sem alterações |
+| 0 - Projeto inicial (console) | `exercicio10/fases/fase-0-oopuro` | Preservado |
 | 1 - Refatoração arquitetural | `exercicio10/fases/fase-01-refatoracao` | Concluída |
 | 2 - Migração para Gradle | `exercicio10/fases/fase-02-gradle` | Concluída |
 | 3 - Introdução ao libGDX | `exercicio10/fases/fase-03-libgdx` | Concluída |
@@ -15,9 +15,18 @@ Projeto de ensino de evolução arquitetural de software: o jogo do Exercício 1
 | 6 - Android | `exercicio10/fases/fase-06-android` | Concluída (sem teste em aparelho; veja o README da fase) |
 | 7 - Evolução livre | `exercicio10/fases/fase-07-evolucao-livre` | Concluída (referência: tempo real, tiro e perseguidor, layout responsivo; sem teste em aparelho) |
 
-Cada fase parte da versão concluída da fase anterior e tem seu próprio tutorial em `docs/fase-XX-tutorial.md`.
+As Fases 1 a 7 evoluem a versão concluída da fase anterior, começando pelo projeto inicial da Fase 0. Cada fase tem seu próprio tutorial em `docs/fase-XX-tutorial.md`.
 
 ## Como executar
+
+### Fase 0 (projeto inicial em modo texto)
+
+```powershell
+cd exercicio10\fases\fase-0-oopuro
+$files = Get-ChildItem -Recurse src -Filter *.java | ForEach-Object FullName
+javac -encoding UTF-8 -d out $files
+java -cp out Main
+```
 
 ### Fase 1 (compilação com `javac`)
 
@@ -114,6 +123,7 @@ Na tela Nova partida escolha o modo: **dinâmico** (tempo real, padrão) ou **cl
 
 ## Material de apoio
 
+- [README do projeto inicial (Fase 0)](exercicio10/fases/fase-0-oopuro/src/README.md)
 - [Tutorial de API, Gradle e libGDX](tutorial-api-gradle-libgdx.md): referencial teórico das Fases 2, 3 e 4.
 - [Prompt mestre](PROMPT_MESTRE.md): regras de execução das fases.
 - Tutorial da Fase 1: [docs/fase-01-tutorial.md](exercicio10/fases/fase-01-refatoracao/docs/fase-01-tutorial.md)
