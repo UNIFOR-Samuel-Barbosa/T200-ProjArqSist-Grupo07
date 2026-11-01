@@ -19,7 +19,7 @@ O jogo segue por turnos. O que se movimenta e se anima é o desenho; a lógica c
 
 ## 3. Conceitos teóricos
 
-Esta seção resume os conceitos e indica onde aprofundar no referencial [`tutorial-api-gradle-libgdx.md`](../../../../tutorial-api-gradle-libgdx.md). Os tópicos que ele não cobre foram complementados com a documentação oficial do libGDX.
+Esta seção resume os conceitos e indica onde aprofundar no referencial [`tutorial-api-gradle-libgdx.md`](../../../../tutorial-api-gradle-libgdx.md) e na [documentação oficial do libGDX](https://libgdx.com/wiki/). Os tópicos que ele não cobre foram complementados com a documentação oficial do framework.
 
 ### 3.1 Sprites e texturas
 
@@ -33,7 +33,11 @@ Um *sprite* é uma imagem 2D que representa um objeto do jogo. O caminho complet
 | Parte de uma textura | `TextureRegion` | Referência | Não copia pixels; é a "janela" para um quadro |
 | Textura com posição e rotação | `Sprite` | Objeto de jogo | Não é usada nesta fase |
 
-Nesta fase os PNG viram `Texture` pelo `AssetManager` e cada quadro é uma `TextureRegion`, desenhada com `SpriteBatch.draw(...)`. O `SpriteBatch` acumula os desenhos entre `begin()` e `end()` e os envia à GPU de uma vez, o que reduz as chamadas de desenho. Referencial: Parte 3, seção "Sprites e Texturas".
+Nesta fase os PNG viram `Texture` pelo `AssetManager` e cada quadro é uma `TextureRegion`, desenhada com `SpriteBatch.draw(...)`. O `SpriteBatch` acumula os desenhos entre `begin()` e `end()` e os envia à GPU em lotes, reduzindo as chamadas de desenho. Aqui não se instancia `Sprite`: o renderizador fornece posição, tamanho e rotação diretamente ao `SpriteBatch`, mantendo os recursos visuais fora das entidades de domínio.
+
+Uma `Texture` é o recurso completo carregado na GPU; uma `TextureRegion` é apenas uma referência a uma área retangular dessa textura. Isso permite guardar uma faixa de quadros em um PNG e selecionar um quadro sem criar uma textura nova para cada imagem da animação. Os objetos do domínio continuam descrevendo posições lógicas e símbolos; `SimboloParaImagem` escolhe a imagem correspondente, e `MundoRenderer` transforma essa informação em chamadas gráficas.
+
+**No projeto:** `Imagem` funciona como catálogo e contrato dos arquivos: define caminho, tamanho do quadro e quantidade de quadros. `Recursos.carregar()` carrega cada textura, define o filtro linear, divide a imagem em regiões e guarda os quadros. Durante o jogo, `Recursos.quadro(...)` entrega imagens estáticas e `Recursos.animacao(...)` cria animações a partir dos quadros já carregados.
 
 ### 3.2 AssetManager
 
@@ -50,6 +54,9 @@ Pontos importantes:
 - `load()` só **enfileira**; nada é carregado até `update()` ou `finishLoading()`. Em um jogo grande usa-se `update()` em uma tela de carregamento; aqui são 25 arquivos pequenos, então `finishLoading()` basta.
 - Recursos carregados pelo gerenciador **não** se liberam manualmente: use `unload()` ou `dispose()` do gerenciador.
 - O `AssetManager` não deve ser `static`: no Android isso causa texturas pretas ou ausentes.
+- O caminho passado a `load()` é relativo à pasta de assets configurada pelo launcher. Nesta fase, `lwjgl3/build.gradle` inclui `core/assets` nos recursos do desktop; por isso `imagens/nave.png` e `sons/musica.wav` podem ser encontrados sem caminho absoluto.
+- Depois de `finishLoading()`, `get()` devolve o recurso já carregado. Não carregue arquivos nem crie texturas dentro de `render()`: esse método roda a cada quadro.
+- Como `AssetManager` é dono dos recursos que carregou, não chame `dispose()` diretamente nas `Texture`, `Sound` ou `Music` devolvidas por ele. `Recursos.dispose()` delega a liberação ao gerenciador.
 
 Complemento oficial: *Managing your assets* (<https://libgdx.com/wiki/managing-your-assets>). O referencial não cobre o `AssetManager`.
 
@@ -67,6 +74,8 @@ TextureRegion quadro = baseAnim.getKeyFrame(tempo, true);        // true = em la
 - Animações **em laço** (propulsor, base, inimigo) usam o tempo da tela.
 - Animações **de uma execução** (explosão, brilho) guardam o próprio tempo e somem ao terminar.
 - Não use `Sprite` como quadro de animação: ele carrega posição, que não passa de um quadro para outro.
+- `frameDuration` é expresso em segundos por quadro. `getKeyFrame(tempo, true)` escolhe o quadro usando o tempo acumulado e repete a sequência; `Animation` não controla um relógio nem desenha por conta própria.
+- O relógio de `TelaBase` acumula o `delta` recebido em `render()`. As animações de base e inimigo recebem esse tempo compartilhado; cada efeito de explosão ou brilho tem seu próprio progresso e é removido quando termina.
 
 Complemento oficial: *2D Animation* (<https://libgdx.com/wiki/graphics/2d/2d-animation>). O referencial não cobre animação por quadros; ele usa um efeito de explosão desenhado com `ShapeRenderer`.
 
@@ -79,7 +88,13 @@ Complemento oficial: *2D Animation* (<https://libgdx.com/wiki/graphics/2d/2d-ani
 | Simultaneidade | Vários ao mesmo tempo | Uma instância por vez |
 | API principal | `play(volume)` | `play()`, `pause()`, `setLooping(true)`, `setVolume(...)` |
 
-Ambos precisam de `dispose()` (aqui feito pelo `AssetManager`). Nesta fase há oito arquivos WAV: seis efeitos, um sinal de menu e a música. O backend desktop (LWJGL3 com OpenAL) toca WAV, OGG e MP3. Referencial: Parte 3, seção "Sons e Áudio".
+`Sound` representa efeitos curtos que podem ser carregados inteiros na memória e reproduzidos várias vezes, inclusive em sobreposição. `Music` representa áudio longo, lido em fluxo, com controles de reprodução, pausa, repetição e volume. Ambos precisam ser liberados; nesta fase isso é feito pelo `AssetManager`.
+
+Há oito arquivos WAV: sete efeitos (`MOVER`, `SELECIONAR`, `EMBARCAR`, `ENTREGAR`, `COLISAO`, `VITORIA` e `DERROTA`) e uma música de fundo. `Som` guarda caminho, volume e se o recurso é música; `Recursos` usa essa informação para carregar efeitos como `Sound` e a trilha como `Music`. `GerenciadorDeSom` aplica o volume, o mudo e o estado de reprodução. O backend desktop LWJGL3 usa OpenAL para saída de áudio.
+
+O momento de tocar o efeito também importa: `GameSession` retorna eventos como `COLISAO` ou `VITORIA` em `ResultadoTurno`; `GameScreen` reage a esses eventos e pede ao gerenciador de som que toque o efeito correspondente. A camada de domínio não conhece áudio nem classes do libGDX.
+
+Referencial: Parte 3, seção "Sons e Áudio".
 
 ### 3.5 HUD
 
@@ -91,6 +106,35 @@ Detalhe técnico: para desenhar formas translúcidas (painéis com 45% de opacid
 Gdx.gl.glEnable(GL20.GL_BLEND);
 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 ```
+
+O `ShapeRenderer` desenha os fundos e a barra de progresso do HUD; `SpriteBatch` desenha os ícones e `BitmapFont` escreve os valores. No `HudRenderer`, primeiro são desenhados os painéis e a barra, depois os textos e os ícones. O blending combina a cor semitransparente do painel com o que já foi desenhado atrás. Como o estado do blending pertence ao OpenGL, o HUD o desliga depois de desenhar os fundos para não afetar as próximas operações.
+
+O HUD recebe uma `GameSession` e apenas consulta seus valores. Assim, pontuação, vidas e passageiros exibidos refletem o estado da aplicação, mas a apresentação não pode alterar as regras da partida.
+
+### Fluxo dos recursos na aplicação
+
+Os recursos gráficos e de áudio são criados uma vez e compartilhados pelas telas, em vez de serem recarregados a cada turno ou quadro:
+
+```text
+Lwjgl3Launcher
+    ↓ inicia
+MissaoMarteGame.create()
+    ├── cria SpriteBatch, ShapeRenderer e BitmapFont
+    ├── Recursos.carregar() → AssetManager carrega texturas, efeitos e música
+    └── cria MenuScreen
+             ↓ nova partida
+          GameScreen
+             ├── MundoRenderer → sprites e animações
+             ├── HudRenderer → painéis, ícones e texto
+             └── GerenciadorDeSom → efeitos e música
+
+MissaoMarteGame.dispose()
+    └── libera AssetManager, fonte, ShapeRenderer e SpriteBatch
+```
+
+O launcher configura a janela e as pastas de recursos; o jogo cria os objetos que dependem do contexto gráfico em `create()`, depois que o backend foi inicializado. `GameScreen` e os renderizadores recebem referências aos recursos compartilhados, mas não assumem a propriedade deles. Ao fechar, `MissaoMarteGame.dispose()` libera cada grupo de recursos no ponto em que foi criado.
+
+Em cada quadro, `TelaBase.render(delta)` atualiza o tempo visual, limpa a tela, aplica o viewport e prepara as matrizes de projeção. Em seguida, o fundo, o mundo, os efeitos e o HUD são desenhados nessa ordem. Os blocos `begin()`/`end()` não podem se sobrepor: termina-se o lote do `ShapeRenderer` antes de iniciar um `SpriteBatch`, e vice-versa. Essa separação também deixa claro qual renderizador é responsável por cada camada visual.
 
 ### 3.6 Colisões: o referencial e este projeto
 
