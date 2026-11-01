@@ -38,6 +38,7 @@ O `ranking.json` é gravado nesta pasta.
 
 ## Documentação
 
+- [Documentação oficial do libGDX](https://libgdx.com/wiki/)
 - [Planejamento](docs/fase-03-planejamento.md)
 - [Enunciado para o aluno](docs/fase-03-enunciado.md)
 - [Tutorial](docs/fase-03-tutorial.md)

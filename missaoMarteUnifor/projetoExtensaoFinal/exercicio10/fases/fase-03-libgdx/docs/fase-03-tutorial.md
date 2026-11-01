@@ -9,6 +9,7 @@ O jogo continua **por turnos**: cada tecla válida processa um turno em `GameSes
 ## 2. Objetivos de aprendizagem
 
 - Entender o que é o libGDX e como ele organiza um jogo em módulos.
+- Explicar o que a API do libGDX oferece e como a aplicação a utiliza.
 - Explicar o ciclo de vida `create()`, `render()`, `resize()`, `pause()`, `resume()` e `dispose()` e como `Game` e `Screen` o estendem.
 - Montar um projeto Gradle multi-módulo (`core` e `lwjgl3`).
 - Reaproveitar as regras existentes trocando só a interface.
@@ -18,7 +19,7 @@ O jogo continua **por turnos**: cada tecla válida processa um turno em `GameSes
 
 ## 3. Conceitos teóricos
 
-Esta seção resume os conceitos e indica onde aprofundar no referencial [`tutorial-api-gradle-libgdx.md`](../../../../tutorial-api-gradle-libgdx.md). Os tópicos que o referencial não cobre foram complementados com a documentação oficial do libGDX.
+Esta seção resume os conceitos e indica onde aprofundar no referencial [`tutorial-api-gradle-libgdx.md`](../../../../tutorial-api-gradle-libgdx.md) e na [documentação oficial do libGDX](https://libgdx.com/wiki/). Os tópicos que o referencial não cobre foram complementados com a documentação oficial do framework.
 
 ### 3.1 O que é o libGDX
 
@@ -32,6 +33,25 @@ O libGDX é um **framework** Java para jogos multiplataforma (desktop, Android, 
 | Backends Android, iOS, HTML | Outras plataformas | não (Fase 6 usa Android) |
 
 No papel de framework, o libGDX fica entre o código de baixo nível (OpenGL, acessado via LWJGL) e o desenvolvedor, oferecendo uma API de alto nível. Diferente de Unity ou Godot, **não tem editor visual**: o jogo inteiro é escrito em código, o que o torna adequado para estudar orientação a objetos aplicada a jogos.
+
+#### API e framework: o que o libGDX faz pelo jogo
+
+Uma **API** (*Application Programming Interface*) é a interface que uma biblioteca ou framework oferece para que outro código use seus serviços. Ela define classes, métodos e convenções de uso; por exemplo, `ShapeRenderer.rect(...)` permite solicitar o desenho de um retângulo sem escrever diretamente as chamadas de OpenGL necessárias para enviá-lo à placa de vídeo.
+
+O libGDX é um **framework** porque, além de fornecer APIs de desenho, entrada, áudio e arquivos, também organiza a execução do jogo. O launcher escolhe o backend e inicia a aplicação; depois, o próprio libGDX chama os métodos de ciclo de vida e entrega os eventos de entrada às classes registradas. Portanto, o fluxo não é apenas “o nosso código chama uma biblioteca”: em pontos importantes, o framework chama o nosso código. Esse estilo é conhecido como **inversão de controle**.
+
+Na Fase 3, a fronteira entre a aplicação e o framework fica principalmente no pacote `gdx`:
+
+| Código da aplicação | API do libGDX usada | Responsabilidade |
+|---|---|---|
+| `Lwjgl3Launcher` | `Lwjgl3Application` e `Lwjgl3ApplicationConfiguration` | Configurar e iniciar a janela desktop, entregando uma instância de `MissaoMarteGame` ao backend. |
+| `MissaoMarteGame` | `Game`, `Gdx`, câmera, viewport e recursos gráficos | Criar recursos compartilhados, selecionar a primeira tela e liberar recursos ao fechar. |
+| `TelaBase` e telas | `Screen`, `Gdx.graphics`, `Gdx.input` e `ScreenUtils` | Responder ao ciclo de vida, limpar e preparar cada quadro e registrar a entrada da tela atual. |
+| `GameScreen` | `InputAdapter`, `Input.Keys`, `ShapeRenderer`, `SpriteBatch` e `BitmapFont` | Converter eventos de teclado em ações do jogo e apresentar o estado da partida. |
+
+`Gdx` é uma fachada estática para serviços fornecidos pelo backend ativo. Por exemplo, `Gdx.graphics` consulta a janela, `Gdx.input` registra o processador de entrada e `Gdx.app` escreve no log ou encerra a aplicação. Esses serviços só estão disponíveis depois que o backend inicia; por isso, o código que os usa, como `create()` e `Screen.show()`, é chamado dentro do ciclo de vida do libGDX, não antes da criação do launcher.
+
+**No projeto:** o domínio e os casos de uso não importam classes `com.badlogic`. `GameSession` continua decidindo o resultado de uma ação e `Missao` continua contendo as regras. O pacote `gdx` atua como adaptador: traduz a API de teclado para `Acao`, chama `GameSession` e converte os objetos do domínio em formas e texto na tela. Assim, a regra pode ser testada sem abrir uma janela nem inicializar OpenGL.
 
 ```mermaid
 flowchart TB
@@ -103,6 +123,70 @@ Referencial: Parte 3, seção 3.3 (características e módulos).
 | `Box2D` | Física 2D | Não previsto |
 
 Classes usadas nesta fase que o referencial não detalha: `FitViewport`, `GlyphLayout`, `InputAdapter`, `ScreenUtils`.
+
+#### Um turno atravessando a API e a aplicação
+
+O fluxo abaixo mostra como o framework e as regras existentes trabalham juntos. Cada tecla válida produz **um turno**; os quadros de `render()` apenas reapresentam o estado atual, não avançam o jogo por conta própria.
+
+```text
+Teclado do jogador
+    ↓ evento do backend LWJGL3
+Gdx.input → InputAdapter.keyDown(keycode) em GameScreen
+    ↓ TecladoParaAcao.converter(keycode)
+Acao (por exemplo, Acao.CIMA)
+    ↓ GameSession.processarAcao(acao)
+ResultadoTurno (estado atualizado e mensagens)
+    ↓ GameScreen guarda mensagens e aplica o estado
+render() → desenha o mapa, os objetos e o painel
+```
+
+O adaptador de teclado recebe códigos da API (`Input.Keys`), mas as regras recebem valores do domínio (`Acao`). A tela não passa `Keys.UP` ou qualquer outro tipo do libGDX para `GameSession`. Se a tecla não corresponder a uma ação, `TecladoParaAcao` devolve `Acao.INVALIDA` e `GameScreen` retorna `false`: o evento não é consumido e nenhum turno é processado.
+
+Trecho simplificado do fluxo implementado em `GameScreen`:
+
+```java
+Acao acao = TecladoParaAcao.converter(keycode);
+if (acao == Acao.INVALIDA) {
+    return false;
+}
+
+ResultadoTurno resultado = session.processarAcao(acao);
+mensagens = new ArrayList<>(resultado.getMensagens());
+aplicarEstado(resultado.getEstado());
+return true;
+```
+
+O `true` ou `false` retornado pelo processador informa ao libGDX se o evento foi tratado. Ele não representa vitória ou sucesso da ação do jogo: o resultado da jogada está em `ResultadoTurno`.
+
+#### Da aplicação até os pixels
+
+No sentido inverso, `GameScreen` consulta a `Missao` da sessão. As classes do domínio expõem posição e símbolo por meio de `ObjetoRenderizavel`; `MapaGeometria` converte as coordenadas da grade para coordenadas da janela; então as APIs gráficas desenham a apresentação. A posição e a colisão continuam pertencendo ao domínio: a interface apenas as representa.
+
+Um quadro segue esta sequência:
+
+1. `TelaBase.render(delta)` é chamado pelo libGDX.
+2. `ScreenUtils.clear(...)` limpa o quadro anterior.
+3. `FitViewport.apply()` e a matriz da câmera estabelecem como as coordenadas virtuais serão projetadas na janela.
+4. `GameScreen.desenhar(...)` usa `ShapeRenderer` para as células, os objetos e a grade.
+5. `SpriteBatch` e `BitmapFont` desenham os símbolos, as mensagens e as informações do painel por cima do mapa.
+6. Os métodos `end()` encerram cada lote de desenho e enviam suas operações à GPU.
+
+Exemplo simplificado de desenho com as duas APIs:
+
+```java
+formas.begin(ShapeRenderer.ShapeType.Filled);
+formas.setColor(COR_NAVE);
+formas.rect(x, y, largura, altura);
+formas.end();
+
+batch.begin();
+fonte.draw(batch, "MISSAO MARTE", xTexto, yTexto);
+batch.end();
+```
+
+`ShapeRenderer` e `SpriteBatch` são formas diferentes de enviar comandos gráficos. Nesta aplicação, primeiro terminamos o lote de formas e só depois iniciamos o lote de texto; não deixamos os dois em `begin()` ao mesmo tempo. O `SpriteBatch` também agrupa as operações de texto para reduzir chamadas individuais à GPU. Nesta fase ele não desenha sprites: imagens e texturas entram na Fase 4.
+
+O `delta` informa o tempo decorrido desde o quadro anterior e é importante em jogos com animação ou simulação contínua. Como a Fase 3 é por turnos, o mapa só muda quando uma ação válida é processada; `render()` pode ser chamado muitas vezes entre duas teclas sem alterar as regras ou avançar um turno.
 
 ### 3.5 Versões e a escolha da 1.12.1
 
