@@ -123,6 +123,7 @@ Na tela Nova partida escolha o modo: **dinâmico** (tempo real, padrão) ou **cl
 
 ## Material de apoio
 
+- [Enunciado geral para o AVA](ENUNCIADO_AVA.md): projeto integrador do console à evolução livre.
 - [README do projeto inicial (Fase 0)](exercicio10/fases/fase-0-oopuro/src/README.md)
 - [Tutorial de API, Gradle e libGDX](tutorial-api-gradle-libgdx.md): referencial teórico das Fases 2, 3 e 4.
 - [Prompt mestre](PROMPT_MESTRE.md): regras de execução das fases.
