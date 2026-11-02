@@ -7,3 +7,7 @@ MaterialApoio/
 
 # Ignore the generated Missao Marte ranking
 /missaoMarteUnifor/projetoExtensaoFinal/exercicio10/ranking.json
+
+# Ignore build output directories in the extension project
+/missaoMarteUnifor/projetoExtensaoFinal/**/bin/
+/missaoMarteUnifor/projetoExtensaoFinal/**/bins/
