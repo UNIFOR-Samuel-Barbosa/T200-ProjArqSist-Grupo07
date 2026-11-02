@@ -21,6 +21,55 @@ flowchart LR
 
 A regra da arquitetura continua valendo: `domain`, `application` e `infrastructure` não importam `com.badlogic`. A decisão de "toque ou teclado" fica na camada `gdx` e nos *launchers*.
 
+## 1.1 Android: história, versões e níveis de API
+
+O Android é uma plataforma de software para dispositivos móveis baseada no kernel Linux. Em 2007, Google e outras empresas anunciaram a Open Handset Alliance e o desenvolvimento do Android como uma plataforma aberta para dispositivos móveis; em 2008 chegaram os primeiros aparelhos comerciais com Android. Desde então, o sistema evoluiu por versões que acrescentam APIs, recursos e regras de comportamento.
+
+As versões Android podem ser identificadas pelo nome comercial e por um **API Level** (nível de API), um número inteiro que identifica a versão das APIs da plataforma disponíveis para os aplicativos. Nomes de versões ajudam pessoas a reconhecer uma geração do sistema; o API Level é o identificador usado por ferramentas de build e pelo próprio app para declarar e verificar compatibilidade.
+
+| Versão Android | API Level | Relação com esta fase |
+|---|---:|---|
+| Android 1.0 | 1 | Primeira versão comercial da plataforma. |
+| Android 5.0 | 21 | Marco de evolução da plataforma e início do suporte amplo a dispositivos de 64 bits. |
+| Android 8.0 | 26 | Versão mínima definida para instalar este app. |
+| Android 9 | 28 | A plataforma passa a bloquear tráfego HTTP sem criptografia por padrão para apps que adotam o comportamento padrão. |
+| Android 15 | 35 | API usada na compilação e declarada como alvo deste projeto. |
+
+O número da versão Android e o API Level não são intercambiáveis. Uma versão pode inclusive ter mais de um nível de API, como Android 12 e 12L. Desde Android 10, os números são a forma pública principal de nomear as versões, embora codinomes continuem sendo usados internamente no desenvolvimento.
+
+### O que significam `minSdk`, `compileSdk` e `targetSdk`
+
+Essas três configurações respondem a perguntas diferentes:
+
+| Configuração deste projeto | Valor | O que significa |
+|---|---:|---|
+| `minSdk` | 26 | Qual é a versão mínima do Android em que o app pode ser instalado. Aqui, Android 8.0/API 26. |
+| `compileSdk` | 35 | Contra quais APIs Android o código é compilado. Usar 35 permite referenciar APIs desse SDK; não restringe a execução somente ao Android 15. |
+| `targetSdk` | 35 | Para qual geração de regras e comportamentos do Android o app declara estar preparado. O sistema pode aplicar compatibilidade ou exigir mudanças conforme esse alvo. |
+
+Em geral, elevar `minSdk` exclui aparelhos mais antigos; reduzi-lo exige conferir que o app e suas dependências não chamam APIs indisponíveis nesses aparelhos. Elevar `targetSdk` pode ativar novos comportamentos e requisitos de privacidade ou segurança, então não é apenas trocar um número. O `compileSdk` costuma ser atualizado para acessar APIs e ferramentas atuais, mas só compilar com um SDK novo não garante compatibilidade em tempo de execução.
+
+### Como isso se relaciona ao libGDX
+
+O libGDX separa o jogo compartilhado do código que conversa com cada plataforma. Neste projeto, `core` contém as regras, telas e renderizadores; o módulo `android` inclui `gdx-backend-android` e um `AndroidLauncher` baseado em `Activity`, que entrega o jogo ao ciclo de vida Android. O módulo `lwjgl3` continua sendo outra implementação de plataforma para desktop. O jogo não precisa ser reescrito para cada aparelho, mas o launcher e as integrações específicas — entrada, armazenamento, áudio e rede — precisam respeitar as APIs da plataforma.
+
+A compatibilidade tem **mais de um eixo**; passar por um deles não garante os demais:
+
+| Eixo | Configuração do projeto | O que precisa ser compatível |
+|---|---|---|
+| Versão do Android em execução | `minSdk 26` | As APIs Android chamadas pelo app e pelas dependências precisam existir no aparelho, ou ter uma alternativa. |
+| API usada na compilação | `compileSdk 35` | O pacote de plataforma Android SDK 35 precisa estar instalado. |
+| Regras de comportamento do app | `targetSdk 35` | O app precisa lidar com as mudanças de comportamento aplicáveis ao Android alvo e ao sistema do aparelho. |
+| Ferramentas de build | AGP 8.6.1, Gradle 8.7, JDK 17 | As versões do plugin, do Gradle e do JDK precisam formar uma combinação suportada. |
+| Bibliotecas do jogo | libGDX 1.12.1 | API, backend Android e artefatos nativos devem permanecer alinhados e compatíveis com a configuração Android. |
+| Arquitetura do processador | `armeabi-v7a`, `arm64-v8a`, `x86`, `x86_64` | O APK precisa conter as bibliotecas nativas correspondentes à ABI do aparelho. |
+
+O **Android Gradle Plugin (AGP)** é a ferramenta que adiciona ao Gradle tarefas para compilar, empacotar e validar aplicativos Android. Ele não é o Android SDK nem o libGDX. Para este projeto, o AGP 8.6.1 foi escolhido junto do Gradle 8.7 e do JDK 17; a documentação oficial do AGP 8.6 indica suporte até API 35. A Fase 6 mantém libGDX 1.12.1, a mesma versão usada nas fases gráficas anteriores, e o `gdx-backend-android` usa essa mesma versão.
+
+O libGDX também depende de código nativo para partes como gráficos e áudio. Por isso, o módulo extrai e inclui arquivos `.so` para as ABIs configuradas. Um app pode ter APIs Java compatíveis e ainda falhar se a biblioteca nativa da arquitetura do aparelho estiver ausente. Da mesma forma, incluir uma ABI não garante que o app tenha sido testado em todos os dispositivos que a usam.
+
+**Compatibilidade configurada não é o mesmo que validação em aparelhos.** Nesta fase o APK foi compilado e inspecionado, mas não foi executado em aparelho físico nem emulador neste ambiente. O `minSdk 26` descreve a intenção de instalação mínima e a configuração de build; não substitui testes de ciclo de vida, toque, áudio, desempenho, rede e diferentes fabricantes/formatos de tela em dispositivos reais.
+
 ## 2. O módulo Android
 
 Em libGDX, cada plataforma é um módulo pequeno que depende do `core`. O do Android tem o `AndroidLauncher`, um `Activity` que monta as dependências e chama `initialize(jogo, configuracao)`:
@@ -142,7 +191,7 @@ Mudanças mínimas no servidor da Fase 5:
 
 Spring Boot lê variáveis de ambiente por *relaxed binding*: na variável os pontos viram `_` e os hífens somem. Por exemplo, `springdoc.swagger-ui.enabled=false` vira `SPRINGDOC_SWAGGERUI_ENABLED=false` (testado).
 
-O passo a passo (Wi-Fi local e nuvem) está em [servidor/DEPLOY.md](../servidor/DEPLOY.md).
+O passo a passo de Wi-Fi local e de deploy no Render com Docker está em [servidor/DEPLOY.md](../servidor/DEPLOY.md). Esse roteiro também explica os conceitos de imagem, contêiner, build multi-stage e persistência necessários para entender o `Dockerfile` deste servidor.
 
 ## 11. Como testar
 
@@ -165,12 +214,19 @@ O passo a passo (Wi-Fi local e nuvem) está em [servidor/DEPLOY.md](../servidor/
 
 ## 12. Fontes oficiais
 
+- Android e Open Handset Alliance, anúncio da plataforma Android (5 nov. 2007): <https://www.openhandsetalliance.com/press_110507.html>
+- Android Developers, versões e mudanças da plataforma: <https://developer.android.com/about/versions>
+- Android Developers, níveis de API e pacotes de plataforma: <https://developer.android.com/tools/releases/platforms>
+- Android 8.0, referência oficial do API Level 26: <https://developer.android.com/about/versions/oreo/android-8.0>
+- Android Gradle Plugin 8.6, compatibilidade e API máxima suportada: <https://developer.android.com/build/releases/past-releases/agp-8-6-0-release-notes>
+- libGDX, geração de projetos e seleção de plataformas/backends: <https://libgdx.com/wiki/start/project-generation>
 - libGDX: wiki (entrada, viewports, extensões e backend Android) e Javadoc de `Input.getTextInput`, em <https://libgdx.com/wiki/> e <https://libgdx.com/dev/>
 - Android Gradle Plugin: tabela de compatibilidade com Gradle, JDK e API em <https://developer.android.com/build/releases/gradle-plugin>
 - Android: configuração de segurança de rede e tráfego sem criptografia, em <https://developer.android.com/privacy-and-security/security-config>
 - Android: `adb`, em <https://developer.android.com/tools/adb> (comando `reverse`)
 - Spring Boot: configuração externa e variáveis de ambiente, em <https://docs.spring.io/spring-boot/reference/features/external-config.html>
 - Docker: referência do Dockerfile, em <https://docs.docker.com/reference/dockerfile/>
+- Render: deploy com Docker, serviços web, diretório raiz de monorepo, variáveis de ambiente, health checks e discos persistentes, em <https://render.com/docs/docker>, <https://render.com/docs/web-services>, <https://render.com/docs/monorepo-support>, <https://render.com/docs/configure-environment-variables>, <https://render.com/docs/health-checks> e <https://render.com/docs/disks>
 - Provedores citados no `DEPLOY.md` como exemplo de limites de planos gratuitos: <https://render.com/docs/free>
 
 As versões efetivamente usadas e as divergências em relação às mais novas estão no [planejamento](fase-06-planejamento.md).
