@@ -1,0 +1,442 @@
+﻿{
+    "schema_version":  "1.0",
+    "repository":  {
+                       "owner":  "marcelobezerra-dotcom",
+                       "name":  "T200-ProjArqSist"
+                   },
+    "schedule":  {
+                     "starts_on":  "2026-11-02",
+                     "ends_on":  "2026-12-04",
+                     "timezone":  "America/Fortaleza",
+                     "note":  "02/11/2026 e feriado nacional no Brasil; realizar a aula em 03/11 ou remarcar.",
+                     "sprints":  [
+                                     {
+                                         "id":  "sprint-01",
+                                         "title":  "Sprint 1 - Base",
+                                         "starts_on":  "2026-11-02",
+                                         "ends_on":  "2026-11-06",
+                                         "phases":  [
+                                                        1,
+                                                        2
+                                                    ]
+                                     },
+                                     {
+                                         "id":  "sprint-02",
+                                         "title":  "Sprint 2 - LibGDX e interface",
+                                         "starts_on":  "2026-11-09",
+                                         "ends_on":  "2026-11-13",
+                                         "phases":  [
+                                                        3,
+                                                        4
+                                                    ]
+                                     },
+                                     {
+                                         "id":  "sprint-03",
+                                         "title":  "Sprint 3 - Servidor e ranking",
+                                         "starts_on":  "2026-11-16",
+                                         "ends_on":  "2026-11-20",
+                                         "phases":  [
+                                                        5
+                                                    ]
+                                     },
+                                     {
+                                         "id":  "sprint-04",
+                                         "title":  "Sprint 4 - Android",
+                                         "starts_on":  "2026-11-23",
+                                         "ends_on":  "2026-11-27",
+                                         "phases":  [
+                                                        6
+                                                    ]
+                                     },
+                                     {
+                                         "id":  "sprint-05",
+                                         "title":  "Sprint 5 - Evolucao livre",
+                                         "starts_on":  "2026-11-30",
+                                         "ends_on":  "2026-12-04",
+                                         "phases":  [
+                                                        7
+                                                    ]
+                                     }
+                                 ]
+                 },
+    "github_project":  {
+                           "title":  "Missao Marte - Sprints de evolucao arquitetural",
+                           "view":  "board",
+                           "status_field":  "Status",
+                           "status_values":  [
+                                                 "Backlog",
+                                                 "Pronto",
+                                                 "Em andamento",
+                                                 "Em revisao",
+                                                 "Concluido"
+                                             ],
+                           "note":  "O importador cria ou completa o campo nativo Iteration Sprint no Project V2. Cada iteração dura 7 dias corridos; o período de trabalho e entrega da sprint permanece de segunda a sexta. As fases são milestones do repositório.",
+                           "sprint_field":  {
+                                                "name":  "Sprint",
+                                                "duration_days":  7,
+                                                "start_date":  "2026-11-02",
+                                                "iterations":  [
+                                                                   {
+                                                                       "id":  "sprint-01",
+                                                                       "title":  "Sprint 1 - Base",
+                                                                       "start_date":  "2026-11-02",
+                                                                       "duration_days":  7,
+                                                                       "ends_on":  "2026-11-08"
+                                                                   },
+                                                                   {
+                                                                       "id":  "sprint-02",
+                                                                       "title":  "Sprint 2 - LibGDX e interface",
+                                                                       "start_date":  "2026-11-09",
+                                                                       "duration_days":  7,
+                                                                       "ends_on":  "2026-11-15"
+                                                                   },
+                                                                   {
+                                                                       "id":  "sprint-03",
+                                                                       "title":  "Sprint 3 - Servidor e ranking",
+                                                                       "start_date":  "2026-11-16",
+                                                                       "duration_days":  7,
+                                                                       "ends_on":  "2026-11-22"
+                                                                   },
+                                                                   {
+                                                                       "id":  "sprint-04",
+                                                                       "title":  "Sprint 4 - Android",
+                                                                       "start_date":  "2026-11-23",
+                                                                       "duration_days":  7,
+                                                                       "ends_on":  "2026-11-29"
+                                                                   },
+                                                                   {
+                                                                       "id":  "sprint-05",
+                                                                       "title":  "Sprint 5 - Evolucao livre",
+                                                                       "start_date":  "2026-11-30",
+                                                                       "duration_days":  7,
+                                                                       "ends_on":  "2026-12-06"
+                                                                   }
+                                                               ]
+                                            }
+                       },
+    "api_import":  {
+                       "method":  "POST",
+                       "endpoint_template":  "/repos/{owner}/{repo}/issues",
+                       "payload_fields":  [
+                                              "title",
+                                              "body",
+                                              "labels",
+                                              "milestone"
+                                          ],
+                       "instructions":  [
+                                            "Criar os labels de tipo antes das issues; as sprints são valores do campo Iteration Sprint do GitHub Project, não labels.",
+                                            "Criar um milestone para cada fase e associar cada issue ao milestone correspondente pelo número retornado pela API.",
+                                            "Os metadados sprint, phase, local_id e depends_on não devem ser enviados no corpo do POST de issues.",
+                                            "Com projectId informado, criar ou completar o campo Iteration Sprint, adicionar cada issue ao Project V2 e preencher sua iteração via GraphQL usando iterationId.",
+                                            "Não incluir token neste arquivo. O importador solicita o token na tela e o encaminha pelo proxy local."
+                                        ],
+                       "project_v2_mutation":  "mutation AddItem($projectId: ID!, $contentId: ID!) { addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) { item { id } } }"
+                   },
+    "labels_to_create":  [
+                             {
+                                 "name":  "tipo:analise",
+                                 "color":  "D4C5F9",
+                                 "description":  "Analise e planejamento"
+                             },
+                             {
+                                 "name":  "tipo:desenvolvimento",
+                                 "color":  "FBCA04",
+                                 "description":  "Implementacao"
+                             },
+                             {
+                                 "name":  "tipo:teste",
+                                 "color":  "BFD4F2",
+                                 "description":  "Testes e validacao"
+                             },
+                             {
+                                 "name":  "tipo:documentacao",
+                                 "color":  "C2E0C6",
+                                 "description":  "Documentacao e evidencias"
+                             }
+                         ],
+    "milestones_to_create":  [
+                                 {
+                                     "phase":  1,
+                                     "title":  "Fase 1 - Refatoracao arquitetural",
+                                     "description":  "Diagnosticar e refatorar o jogo de console preservando seu comportamento.",
+                                     "due_on":  "2026-11-06T23:59:59Z"
+                                 },
+                                 {
+                                     "phase":  2,
+                                     "title":  "Fase 2 - Gradle",
+                                     "description":  "Configurar Gradle Wrapper e build reproduzivel.",
+                                     "due_on":  "2026-11-06T23:59:59Z"
+                                 },
+                                 {
+                                     "phase":  3,
+                                     "title":  "Fase 3 - Estrutura LibGDX",
+                                     "description":  "Introduzir ciclo de vida LibGDX e modulos core e desktop.",
+                                     "due_on":  "2026-11-13T23:59:59Z"
+                                 },
+                                 {
+                                     "phase":  4,
+                                     "title":  "Fase 4 - Interface grafica",
+                                     "description":  "Implementar interface grafica desktop jogavel.",
+                                     "due_on":  "2026-11-13T23:59:59Z"
+                                 },
+                                 {
+                                     "phase":  5,
+                                     "title":  "Fase 5 - Servidor e ranking",
+                                     "description":  "Entregar API, persistencia, autenticacao, historico e ranking.",
+                                     "due_on":  "2026-11-20T23:59:59Z"
+                                 },
+                                 {
+                                     "phase":  6,
+                                     "title":  "Fase 6 - Android",
+                                     "description":  "Adaptar o jogo para Android mantendo a versao desktop.",
+                                     "due_on":  "2026-11-27T23:59:59Z"
+                                 },
+                                 {
+                                     "phase":  7,
+                                     "title":  "Fase 7 - Evolucao livre",
+                                     "description":  "Entregar uma melhoria escolhida, testada e documentada.",
+                                     "due_on":  "2026-12-04T23:59:59Z"
+                                 }
+                             ],
+    "issues":  [
+                   {
+                       "local_id":  "MM-01",
+                       "sprint":  "sprint-01",
+                       "phase":  1,
+                       "depends_on":  [
+
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 1] Mapear arquitetura e comportamento atual do Missao Marte",
+                                       "body":  "## Objetivo\nComo equipe, queremos entender o Exercicio 10 antes de refatorar, para preservar as regras e localizar responsabilidades e acoplamentos.\n\n## Criterios de aceite\n- [ ] O fluxo de uma partida e as regras principais estao descritos.\n- [ ] Existe diagrama da arquitetura atual e proposta.\n- [ ] Ha uma lista de comportamentos de referencia e comandos para compilar/executar.\n- [ ] `exercicio10/src` permanece intacto.\n",
+                                       "labels":  [
+                                                      "tipo:analise"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-02",
+                       "sprint":  "sprint-01",
+                       "phase":  1,
+                       "depends_on":  [
+                                          "MM-01"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 1] Separar dominio, aplicacao e interface de console",
+                                       "body":  "## Objetivo\nComo equipe, queremos separar regras do jogo, coordenacao da partida e entrada/saida de console para facilitar evolucao e testes.\n\n## Criterios de aceite\n- [ ] Regras e apresentacao tem responsabilidades separadas.\n- [ ] SOLID, GRASP e padroes sao aplicados onde agregam valor e justificados.\n- [ ] O jogo continua executavel no console e mantem o comportamento observado em MM-01.\n- [ ] Testes automatizados cobrem as regras principais.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-03",
+                       "sprint":  "sprint-01",
+                       "phase":  2,
+                       "depends_on":  [
+                                          "MM-02"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 2] Configurar Gradle Wrapper e build reproduzivel",
+                                       "body":  "## Objetivo\nComo equipe, queremos compilar, testar e executar o jogo pelo Gradle Wrapper para padronizar o ambiente de desenvolvimento.\n\n## Criterios de aceite\n- [ ] O projeto tem `build.gradle` e Gradle Wrapper versionado.\n- [ ] Os comandos de build, teste e execucao funcionam em instalacao limpa com JDK documentado.\n- [ ] O jogo mantem o comportamento da versao anterior.\n- [ ] O README explica tasks, dependencias e comandos utilizados.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste",
+                                                      "tipo:documentacao"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-04",
+                       "sprint":  "sprint-02",
+                       "phase":  3,
+                       "depends_on":  [
+                                          "MM-03"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 3] Introduzir modulos core e desktop com LibGDX",
+                                       "body":  "## Objetivo\nComo equipe, queremos introduzir o ciclo de vida do LibGDX e separar o codigo compartilhado do launcher desktop, preservando o dominio existente.\n\n## Criterios de aceite\n- [ ] O projeto inicia pelo launcher desktop.\n- [ ] O ciclo de vida `create`, `render`, `resize` e `dispose` esta documentado.\n- [ ] As regras do dominio nao dependem de classes LibGDX.\n- [ ] O nucleo pode ser testado sem abrir janela ou usar OpenGL.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-05",
+                       "sprint":  "sprint-02",
+                       "phase":  3,
+                       "depends_on":  [
+                                          "MM-04"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 3] Conectar GameSession a tela e aos controles desktop",
+                                       "body":  "## Objetivo\nComo jogador, quero iniciar e controlar uma partida na janela LibGDX, enquanto as regras permanecem no dominio/aplicacao.\n\n## Criterios de aceite\n- [ ] A tela encaminha acoes a sessao e apresenta o estado recebido.\n- [ ] Entrada de teclado nao contem regras de negocio.\n- [ ] O modo de console ou os testes de dominio continuam funcionando.\n- [ ] O ciclo de troca e descarte de telas nao deixa recursos ativos.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-06",
+                       "sprint":  "sprint-02",
+                       "phase":  4,
+                       "depends_on":  [
+                                          "MM-05"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 4] Implementar sprites, HUD, movimento, colisoes e audio",
+                                       "body":  "## Objetivo\nComo jogador, quero visualizar uma partida grafica com nave, mapa, perigos, informacoes e retorno visual/sonoro das acoes.\n\n## Criterios de aceite\n- [ ] A partida desktop e jogavel com teclado.\n- [ ] Sprites, HUD e estados de vitoria/derrota refletem o estado do dominio.\n- [ ] Colisoes e efeitos visuais nao duplicam regras de negocio na tela.\n- [ ] Assets tem origem documentada ou sao gerados pelo projeto.\n- [ ] Testes relevantes passam sem depender de janela, audio ou relogio real.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-07",
+                       "sprint":  "sprint-03",
+                       "phase":  5,
+                       "depends_on":  [
+                                          "MM-06"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 5] Criar API Spring Boot com cadastro, login e persistencia",
+                                       "body":  "## Objetivo\nComo jogador, quero criar uma conta e autenticar-me para que meu historico e pontuacoes sejam associados a minha identidade.\n\n## Criterios de aceite\n- [ ] O servidor e um subprojeto independente e inicia conforme o README.\n- [ ] Cadastro e login tem validacao e respostas de erro apropriadas.\n- [ ] Senhas sao armazenadas com hash seguro, nunca em texto puro.\n- [ ] Testes cobrem os fluxos validos e invalidos da API.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-08",
+                       "sprint":  "sprint-03",
+                       "phase":  5,
+                       "depends_on":  [
+                                          "MM-07"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 5] Persistir historico e expor ranking Top 10",
+                                       "body":  "## Objetivo\nComo jogador autenticado, quero consultar meu historico e o ranking global para acompanhar meu desempenho.\n\n## Criterios de aceite\n- [ ] Cada partida concluida e associada ao jogador autenticado.\n- [ ] O historico e consultavel sem expor dados de outros usuarios indevidamente.\n- [ ] O Top 10 considera a maior pontuacao de cada jogador.\n- [ ] O servidor armazena usuarios e pontuacoes, mas nao executa a logica do jogo.\n- [ ] Testes cobrem ordenacao, empate, limites do Top 10 e isolamento por usuario.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-09",
+                       "sprint":  "sprint-03",
+                       "phase":  5,
+                       "depends_on":  [
+                                          "MM-08"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 5] Integrar autenticacao, historico e ranking no cliente",
+                                       "body":  "## Objetivo\nComo jogador, quero autenticar-me no jogo e enviar/consultar resultados pela API, com erros de rede apresentados de forma compreensivel.\n\n## Criterios de aceite\n- [ ] O cliente consome endpoints de cadastro/login e ranking/historico.\n- [ ] Sessoes e tokens sao tratados sem registrar credenciais em logs.\n- [ ] Erros de conexao e respostas invalidas nao encerram a partida de forma inesperada.\n- [ ] Testes cobrem o adaptador HTTP e a integracao principal.\n- [ ] O servidor nao e necessario para executar testes do dominio do cliente.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-10",
+                       "sprint":  "sprint-04",
+                       "phase":  6,
+                       "depends_on":  [
+                                          "MM-09"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 6] Adicionar launcher Android e gerar APK de depuracao",
+                                       "body":  "## Objetivo\nComo equipe, queremos reutilizar o nucleo LibGDX em Android e manter o launcher desktop existente.\n\n## Criterios de aceite\n- [ ] O modulo Android usa o mesmo codigo de dominio e aplicacao.\n- [ ] O desktop continua compilando e executando.\n- [ ] O APK de depuracao e gerado quando Android SDK/JDK estao disponiveis.\n- [ ] Versoes de SDK, requisitos e comandos estao documentados.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-11",
+                       "sprint":  "sprint-04",
+                       "phase":  6,
+                       "depends_on":  [
+                                          "MM-10"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 6] Adaptar interface e controles para telas sensiveis ao toque",
+                                       "body":  "## Objetivo\nComo jogador em celular, quero controlar a nave por toque e visualizar a partida sem controles ou informacoes cortados.\n\n## Criterios de aceite\n- [ ] Controles por toque encaminham acoes sem colocar regras de jogo na interface.\n- [ ] Os elementos principais cabem em retrato e paisagem.\n- [ ] Pausa, retomada e retorno do aplicativo sao tratados.\n- [ ] Os alvos de toque sao utilizaveis e nao se sobrepoem de modo ambiguo.\n- [ ] O comportamento desktop permanece disponivel.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-12",
+                       "sprint":  "sprint-04",
+                       "phase":  6,
+                       "depends_on":  [
+                                          "MM-11"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 6] Validar APK e documentar limitacoes de dispositivo",
+                                       "body":  "## Objetivo\nComo equipe, queremos registrar evidencias de execucao Android e deixar explicito o que foi ou nao testado em aparelho real.\n\n## Criterios de aceite\n- [ ] O APK instala e abre em aparelho/emulador, ou a indisponibilidade do ambiente e registrada.\n- [ ] Ha evidencia de controles, rotacao e comunicacao com o servidor quando o ambiente permite.\n- [ ] Limitacoes, falhas conhecidas e requisitos para execucao estao no README.\n- [ ] Nenhum segredo de producao e incluido nos arquivos ou evidencias.\n",
+                                       "labels":  [
+                                                      "tipo:teste",
+                                                      "tipo:documentacao"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-13",
+                       "sprint":  "sprint-05",
+                       "phase":  7,
+                       "depends_on":  [
+                                          "MM-12"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 7] Definir melhoria, arquitetura e criterios de aceite",
+                                       "body":  "## Objetivo\nComo equipe, queremos escolher uma melhoria pequena e demonstravel, identificando pontos de extensao, riscos e comportamento que deve permanecer compativel.\n\n## Criterios de aceite\n- [ ] A melhoria escolhida cabe em um sprint e tem comportamento observavel.\n- [ ] Camadas/classes afetadas e pontos de extensao estao descritos.\n- [ ] Criterios de aceite e casos de teste estao definidos antes da implementacao.\n- [ ] O modo classico, os testes anteriores e a arquitetura sao considerados na analise de impacto.\n",
+                                       "labels":  [
+                                                      "tipo:analise"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-14",
+                       "sprint":  "sprint-05",
+                       "phase":  7,
+                       "depends_on":  [
+                                          "MM-13"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 7] Implementar melhoria com testes de regressao",
+                                       "body":  "## Objetivo\nComo jogador, quero usar a melhoria definida em MM-13 sem perder os comportamentos existentes do jogo.\n\n## Criterios de aceite\n- [ ] A melhoria funciona no fluxo previsto e respeita a separacao de responsabilidades.\n- [ ] Testes automatizados cobrem o caso normal, limites e comportamento que nao deve ocorrer.\n- [ ] Testes anteriores continuam passando ou cada alteracao necessaria e justificada.\n- [ ] Nao ha dependencia de relogio real, janela grafica ou rede nos testes de regras.\n",
+                                       "labels":  [
+                                                      "tipo:desenvolvimento",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   },
+                   {
+                       "local_id":  "MM-15",
+                       "sprint":  "sprint-05",
+                       "phase":  7,
+                       "depends_on":  [
+                                          "MM-14"
+                                      ],
+                       "payload":  {
+                                       "title":  "[Fase 7] Documentar arquitetura, testes e demonstracao final",
+                                       "body":  "## Objetivo\nComo equipe e docente, queremos entender como a melhoria foi projetada, validada e demonstrada, incluindo limitacoes e proximos passos.\n\n## Criterios de aceite\n- [ ] README/tutorial explicam execucao, controles, decisao arquitetural e testes.\n- [ ] A demonstracao mostra a melhoria e a preservacao dos comportamentos anteriores.\n- [ ] O que nao foi verificado (por exemplo, aparelho real) esta declarado sem alegar validacao inexistente.\n- [ ] A revisao final confirma build, testes, documentacao e ausencia de alteracoes nas fases anteriores.\n",
+                                       "labels":  [
+                                                      "tipo:documentacao",
+                                                      "tipo:teste"
+                                                  ]
+                                   }
+                   }
+               ]
+}

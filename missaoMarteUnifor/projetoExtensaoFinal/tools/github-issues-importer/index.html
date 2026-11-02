@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Missão Marte | GitHub Issue Importer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17241f;
+      --muted: #64736d;
+      --paper: #f0f3ef;
+      --panel: #ffffff;
+      --line: #d7dfd9;
+      --green: #205a47;
+      --green-dark: #14392e;
+      --orange: #c34a2c;
+      --orange-dark: #9c351e;
+      --amber: #f1c96b;
+      --ok: #22734f;
+      --error: #b13d2a;
+      --mono: "Cascadia Code", Consolas, monospace;
+      --sans: "Aptos", "Segoe UI", sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 15px/1.5 var(--sans);
+    }
+
+    .masthead {
+      min-height: 190px;
+      padding: 28px max(24px, calc((100vw - 1200px) / 2));
+      background: var(--green-dark);
+      color: #f5f7f3;
+      border-bottom: 5px solid var(--orange);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--amber);
+      font: 700 11px/1.2 var(--mono);
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font: 400 38px/1.05 var(--serif);
+      letter-spacing: 0;
+    }
+
+    .mast-meta {
+      color: #c6d3cc;
+      font: 12px/1.5 var(--mono);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    main {
+      width: min(1200px, calc(100% - 48px));
+      margin: 28px auto 64px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+      align-items: start;
+      gap: 20px;
+    }
+
+    .panel {
+      min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .step-number {
+      color: var(--orange);
+      font: 700 12px var(--mono);
+    }
+
+    .panel-body { padding: 18px 20px 20px; }
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+
+    label, .field-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #35443e;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 11px;
+      color: var(--ink);
+      background: #fcfdfb;
+      border: 1px solid #aebbb3;
+      border-radius: 4px;
+      font: 14px/1.45 var(--sans);
+    }
+
+    input:focus, textarea:focus, button:focus-visible, summary:focus-visible {
+      outline: 3px solid #e8a34c;
+      outline-offset: 2px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: var(--muted);
+      font: 13px var(--sans);
+    }
+
+    input[type="file"]::file-selector-button {
+      min-height: 38px;
+      margin-right: 10px;
+      padding: 0 12px;
+      color: var(--green-dark);
+      background: #e8eee9;
+      border: 1px solid #c5d0c8;
+      border-radius: 4px;
+      font: 700 13px var(--sans);
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+      font: 12px/1.5 var(--mono);
+    }
+
+    .two-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .input-action {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-action input { min-width: 0; }
+
+    button {
+      min-height: 40px;
+      padding: 9px 13px;
+      color: var(--ink);
+      background: #edf1ed;
+      border: 1px solid #c4cec7;
+      border-radius: 4px;
+      font: 700 13px var(--sans);
+      cursor: pointer;
+      transition: background-color 120ms ease, transform 120ms ease;
+    }
+
+    button:hover:not(:disabled) { background: #e1e9e3; }
+    button:active:not(:disabled) { transform: translateY(1px); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .button-primary {
+      color: #fff;
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .button-primary:hover:not(:disabled) { background: var(--orange-dark); }
+    .button-secondary { color: var(--green-dark); }
+    .button-small { min-height: 36px; white-space: nowrap; }
+
+    .button-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .helper {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .inline-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 12px 0;
+      color: #35443e;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .inline-check input {
+      width: 16px;
+      height: 16px;
+      margin: 2px 0 0;
+      accent-color: var(--green);
+      flex: 0 0 auto;
+    }
+
+    .security-note {
+      margin-top: 16px;
+      padding: 10px 12px;
+      background: #f8f2e4;
+      border-left: 3px solid #d59b30;
+      color: #51452d;
+      font-size: 12px;
+    }
+
+    .status-line {
+      min-height: 22px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-line[data-kind="success"] { color: var(--ok); }
+    .status-line[data-kind="error"] { color: var(--error); }
+
+    .summary-strip {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      color: var(--muted);
+      font: 12px var(--mono);
+    }
+
+    .summary-count {
+      color: var(--green-dark);
+      font: 700 22px/1 var(--serif);
+    }
+
+    .preview-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .preview-list { padding: 0 20px; }
+
+    .issue-row {
+      padding: 14px 0;
+      border-bottom: 1px solid #e5eae6;
+    }
+
+    .issue-row:last-child { border-bottom: 0; }
+
+    .issue-summary {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .issue-summary::-webkit-details-marker { display: none; }
+    .issue-summary::before {
+      content: "+";
+      width: 18px;
+      color: var(--orange);
+      font: 700 16px/1.2 var(--mono);
+      text-align: center;
+      flex: 0 0 auto;
+    }
+
+    details[open] > .issue-summary::before { content: "−"; }
+
+    .issue-select {
+      width: 16px;
+      height: 16px;
+      margin: 2px 2px 0 0;
+      accent-color: var(--green);
+      flex: 0 0 auto;
+    }
+
+    .issue-title {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .issue-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      color: var(--muted);
+      font: 11px/1.3 var(--mono);
+    }
+
+    .tag {
+      padding: 3px 6px;
+      background: #edf2ee;
+      border-radius: 3px;
+    }
+
+    .issue-body {
+      margin: 12px 0 0 48px;
+      padding: 10px 12px;
+      color: #44524b;
+      background: #f7f9f7;
+      border-left: 2px solid #c6d2c9;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .empty-state {
+      padding: 42px 24px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .progress-wrap { margin-top: 14px; }
+    progress {
+      width: 100%;
+      height: 8px;
+      border: 0;
+      border-radius: 5px;
+      overflow: hidden;
+      accent-color: var(--green);
+    }
+
+    progress::-webkit-progress-bar { background: #e2e8e3; }
+    progress::-webkit-progress-value { background: var(--green); }
+    progress::-moz-progress-bar { background: var(--green); }
+
+    .activity {
+      max-height: 205px;
+      margin: 14px 0 0;
+      padding: 0;
+      overflow: auto;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .activity li {
+      padding: 8px 0;
+      border-bottom: 1px solid #edf0ed;
+      color: #405048;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .activity li[data-kind="success"] { color: var(--ok); }
+    .activity li[data-kind="error"] { color: var(--error); }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 820px) {
+      .workspace { grid-template-columns: 1fr; }
+      .masthead { min-height: 165px; }
+    }
+
+    @media (max-width: 560px) {
+      .masthead {
+        min-height: 150px;
+        padding: 22px 18px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      h1 { font-size: 32px; }
+      .mast-meta { text-align: left; white-space: normal; }
+      main { width: calc(100% - 24px); margin-top: 14px; }
+      .workspace { gap: 12px; }
+      .panel-head { padding: 15px 15px 12px; }
+      .panel-body { padding: 15px; }
+      .preview-tools { padding: 12px 15px; }
+      .preview-list { padding: 0 15px; }
+      .two-fields { grid-template-columns: 1fr; gap: 0; }
+      .button-row button { flex: 1 1 145px; }
+      .issue-body { margin-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Missão Marte / Operações de repositório</p>
+      <h1>GitHub Issue Importer</h1>
+    </div>
+    <div class="mast-meta">SPRINTS 01—05<br>02 NOV — 04 DEZ 2026</div>
+  </header>
+
+  <main>
+    <div class="workspace">
+      <section class="panel" aria-labelledby="config-title">
+        <div class="panel-head">
+          <h2 id="config-title">Configuração</h2>
+          <span class="step-number">01 / 02</span>
+        </div>
+        <div class="panel-body">
+          <div class="two-fields">
+            <div class="field">
+              <label for="owner">Owner do GitHub</label>
+              <input id="owner" type="text" autocomplete="off" spellcheck="false" placeholder="marcelobezerra-dotcom">
+            </div>
+            <div class="field">
+              <label for="repo">Repositório</label>
+              <input id="repo" type="text" autocomplete="off" spellcheck="false" placeholder="T200-ProjArqSist">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="token">Token de acesso pessoal</label>
+            <div class="input-action">
+              <input id="token" type="password" autocomplete="new-password" spellcheck="false" placeholder="github_pat_…">
+              <button id="toggle-token" class="button-small button-secondary" type="button" aria-label="Mostrar token">Mostrar</button>
+            </div>
+            <p class="helper">Permissão necessária: Issues (leitura e escrita) e metadados do repositório (leitura).</p>
+          </div>
+
+          <div class="field">
+            <label for="project-id">Project V2: número, URL ou ID <span class="helper">(opcional)</span></label>
+            <input id="project-id" type="text" autocomplete="off" spellcheck="false" placeholder="5, URL do projeto ou PVT_kw…">
+            <p class="helper">Informe o número (assumindo o owner do repositório), a URL do Project ou o ID PVT_. Necessário para preencher Sprint; o token precisa de Projects (leitura e escrita).</p>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Planejamento JSON</span>
+            <input id="json-file" type="file" accept=".json,application/json" aria-label="Selecionar arquivo JSON">
+          </div>
+
+          <div class="field">
+            <label for="json-input">Conteúdo JSON</label>
+            <textarea id="json-input" spellcheck="false" placeholder="Selecione um arquivo JSON ou cole o planejamento aqui."></textarea>
+          </div>
+
+          <label class="inline-check"><input id="create-labels" type="checkbox" checked> Criar labels ausentes no repositório</label>
+          <label class="inline-check"><input id="create-milestones" type="checkbox" checked> Criar milestones ausentes e associar por fase</label>
+          <label class="inline-check"><input id="skip-existing" type="checkbox" checked> Ignorar issues existentes com título idêntico</label>
+
+          <div class="button-row">
+            <button id="validate-button" class="button-secondary" type="button">Validar JSON</button>
+            <button id="access-button" class="button-secondary" type="button">Conferir acesso</button>
+            <button id="import-button" class="button-primary" type="button" disabled>Importar selecionadas</button>
+          </div>
+          <p id="status" class="status-line" role="status" aria-live="polite">Carregue ou cole o planejamento para validar.</p>
+          <div class="progress-wrap">
+            <label class="sr-only" for="progress">Progresso da importação</label>
+            <progress id="progress" max="100" value="0"></progress>
+          </div>
+          <ul id="activity" class="activity" aria-live="polite"></ul>
+          <div class="security-note">O token fica apenas na memória desta página. Ele é enviado ao proxy local em 127.0.0.1 e encaminhado ao GitHub, sem ser gravado em disco ou incluído nos logs. Feche a página para limpá-lo.</div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="preview-title">
+        <div class="panel-head">
+          <h2 id="preview-title">Prévia das issues</h2>
+          <div class="summary-strip"><span id="issue-count" class="summary-count">0</span><span>issues</span></div>
+        </div>
+        <div class="preview-tools">
+          <span id="selection-count" class="helper" aria-live="polite">Nenhum planejamento carregado</span>
+          <button id="select-all" class="button-small button-secondary" type="button" disabled>Selecionar todas</button>
+        </div>
+        <div id="issue-list" class="preview-list">
+          <div class="empty-state">A lista aparecerá aqui após a validação do JSON.</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const API_ROOT = "/api";
+      const ownerInput = document.querySelector("#owner");
+      const repoInput = document.querySelector("#repo");
+      const tokenInput = document.querySelector("#token");
+      const projectIdInput = document.querySelector("#project-id");
+      const fileInput = document.querySelector("#json-file");
+      const jsonInput = document.querySelector("#json-input");
+      const status = document.querySelector("#status");
+      const issueCount = document.querySelector("#issue-count");
+      const selectionCount = document.querySelector("#selection-count");
+      const issueList = document.querySelector("#issue-list");
+      const progress = document.querySelector("#progress");
+      const activity = document.querySelector("#activity");
+      const validateButton = document.querySelector("#validate-button");
+      const accessButton = document.querySelector("#access-button");
+      const importButton = document.querySelector("#import-button");
+      const selectAllButton = document.querySelector("#select-all");
+      const createLabelsInput = document.querySelector("#create-labels");
+      const createMilestonesInput = document.querySelector("#create-milestones");
+      const skipExistingInput = document.querySelector("#skip-existing");
+      const toggleTokenButton = document.querySelector("#toggle-token");
+
+      let plan = null;
+      let busy = false;
+
+      function setStatus(message, kind = "") {
+        status.textContent = message;
+        status.dataset.kind = kind;
+      }
+
+      function log(message, kind = "") {
+        const item = document.createElement("li");
+        item.textContent = message;
+        item.dataset.kind = kind;
+        activity.prepend(item);
+      }
+
+      function getCredentials() {
+        const owner = ownerInput.value.trim();
+        const repo = repoInput.value.trim();
+        const token = tokenInput.value.trim();
+        if (!owner || !repo || !token) throw new Error("Informe owner, repositório e token.");
+        return { owner, repo, token };
+      }
+
+      function validatePlan() {
+        const parsed = JSON.parse(jsonInput.value);
+        if (!parsed || typeof parsed !== "object") throw new Error("O conteúdo precisa ser um objeto JSON.");
+        if (!Array.isArray(parsed.issues) || parsed.issues.length === 0) throw new Error("O JSON precisa conter uma lista issues não vazia.");
+        if (!Array.isArray(parsed.labels_to_create)) throw new Error("O JSON precisa conter labels_to_create.");
+        if (!Array.isArray(parsed.milestones_to_create)) throw new Error("O JSON precisa conter milestones_to_create.");
+        if (!parsed.schedule || !Array.isArray(parsed.schedule.sprints)) throw new Error("O JSON precisa conter schedule.sprints.");
+
+        const knownSprints = new Set(parsed.schedule.sprints.map((sprint) => sprint.id));
+        const sprintField = parsed.github_project?.sprint_field;
+        if (sprintField?.name !== "Sprint" || !Array.isArray(sprintField.iterations) || !Number.isInteger(sprintField.duration_days) || sprintField.duration_days < 1) {
+          throw new Error("O JSON precisa definir github_project.sprint_field com duração e iterações de Sprint.");
+        }
+        const knownSprintIterations = new Map(sprintField.iterations.map((iteration) => [iteration.id, iteration]));
+        const knownPhases = new Set(parsed.milestones_to_create.map((milestone) => milestone.phase));
+        for (const sprint of parsed.schedule.sprints) {
+          const iteration = knownSprintIterations.get(sprint.id);
+          if (!iteration || iteration.title !== sprint.title || iteration.start_date !== sprint.starts_on || iteration.duration_days !== sprintField.duration_days || Number.isNaN(Date.parse(`${iteration.start_date}T00:00:00Z`))) {
+            throw new Error(`Iteração Sprint ausente ou divergente: ${sprint.title}`);
+          }
+        }
+        const knownLabels = new Set(parsed.labels_to_create.map((label) => label.name));
+        const seenIds = new Set();
+        for (const issue of parsed.issues) {
+          if (!issue.local_id || !issue.sprint || !knownSprints.has(issue.sprint)) throw new Error("Cada issue precisa ter local_id e sprint definidos no cronograma.");
+          if (!knownPhases.has(issue.phase)) throw new Error(`Milestone não definido para a fase ${issue.phase} em ${issue.local_id}.`);
+          if (seenIds.has(issue.local_id)) throw new Error(`Identificador local repetido: ${issue.local_id}`);
+          seenIds.add(issue.local_id);
+          if (!issue.payload || !issue.payload.title || !issue.payload.body || !Array.isArray(issue.payload.labels)) throw new Error(`Payload incompleto em ${issue.local_id}.`);
+          for (const label of issue.payload.labels) {
+            if (!knownLabels.has(label)) throw new Error(`Label de ${issue.local_id} não está definido em labels_to_create: ${label}`);
+          }
+        }
+        return parsed;
+      }
+
+      function updateSelectionCount() {
+        const boxes = [...issueList.querySelectorAll(".issue-select")];
+        const selected = boxes.filter((box) => box.checked).length;
+        selectionCount.textContent = plan
+          ? `${selected} de ${boxes.length} selecionadas`
+          : "Nenhum planejamento carregado";
+        importButton.disabled = !plan || selected === 0 || busy;
+        selectAllButton.disabled = !plan || boxes.length === 0 || busy;
+        selectAllButton.textContent = boxes.length > 0 && selected === boxes.length ? "Desmarcar todas" : "Selecionar todas";
+      }
+
+      function renderIssues(parsed) {
+        plan = parsed;
+        if (!ownerInput.value.trim() && parsed.repository?.owner) ownerInput.value = parsed.repository.owner;
+        if (!repoInput.value.trim() && parsed.repository?.name) repoInput.value = parsed.repository.name;
+        issueCount.textContent = String(parsed.issues.length);
+        issueList.replaceChildren();
+
+        for (const issue of parsed.issues) {
+          const details = document.createElement("details");
+          details.className = "issue-row";
+          const summary = document.createElement("summary");
+          summary.className = "issue-summary";
+          const checkbox = document.createElement("input");
+          checkbox.className = "issue-select";
+          checkbox.type = "checkbox";
+          checkbox.checked = true;
+          checkbox.setAttribute("aria-label", `Selecionar ${issue.payload.title}`);
+          checkbox.addEventListener("click", (event) => event.stopPropagation());
+          checkbox.addEventListener("change", updateSelectionCount);
+
+          const info = document.createElement("span");
+          const title = document.createElement("span");
+          title.className = "issue-title";
+          title.textContent = issue.payload.title;
+          const meta = document.createElement("span");
+          meta.className = "issue-meta";
+          for (const value of [issue.local_id, issue.sprint, `Fase ${issue.phase}`]) {
+            const tag = document.createElement("span");
+            tag.className = "tag";
+            tag.textContent = value;
+            meta.append(tag);
+          }
+          info.append(title, meta);
+          summary.append(checkbox, info);
+          const body = document.createElement("div");
+          body.className = "issue-body";
+          body.textContent = issue.payload.body;
+          details.append(summary, body);
+          issueList.append(details);
+        }
+        updateSelectionCount();
+      }
+
+      function markBusy(value) {
+        busy = value;
+        validateButton.disabled = value;
+        accessButton.disabled = value;
+        importButton.disabled = value || !plan || issueList.querySelectorAll(".issue-select:checked").length === 0;
+        selectAllButton.disabled = value || !plan;
+        fileInput.disabled = value;
+        jsonInput.readOnly = value;
+      }
+
+      function encodePath(value) {
+        return encodeURIComponent(value);
+      }
+
+      function repoPath(owner, repo, path) {
+        return `/repos/${encodePath(owner)}/${encodePath(repo)}${path}`;
+      }
+
+      async function githubRequest(url, token, options = {}) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000);
+        try {
+          const requestUrl = url.startsWith("https://") ? url : `${API_ROOT}${url}`;
+          const response = await fetch(requestUrl, {
+            ...options,
+            signal: controller.signal,
+            headers: {
+              "Accept": "application/vnd.github+json",
+              "Authorization": `Bearer ${token}`,
+              "X-GitHub-Api-Version": "2022-11-28",
+              ...(options.body ? { "Content-Type": "application/json" } : {}),
+              ...options.headers
+            }
+          });
+          const text = await response.text();
+          let data = null;
+          if (text) {
+            try { data = JSON.parse(text); }
+            catch { data = { message: text }; }
+          }
+          if (!response.ok) {
+            const detail = data?.message || `HTTP ${response.status}`;
+            const method = options.method || "GET";
+            const path = new URL(requestUrl, location.origin).pathname;
+            throw new Error(`GitHub respondeu HTTP ${response.status} em ${method} ${path}: ${detail}`);
+          }
+          return data;
+        } catch (error) {
+          if (error.name === "AbortError") throw new Error("Tempo limite ao aguardar o GitHub (20 s). Confira a conexão e tente novamente.");
+          if (error instanceof TypeError) throw new Error("Não foi possível acessar o proxy local. Inicie server.py e recarregue a página.");
+          throw error;
+        } finally {
+          clearTimeout(timeoutId);
+        }
+      }
+
+      async function getAllPages(path, token) {
+        const results = [];
+        for (let page = 1; page <= 100; page += 1) {
+          const separator = path.includes("?") ? "&" : "?";
+          const batch = await githubRequest(`${path}${separator}per_page=100&page=${page}`, token);
+          if (!Array.isArray(batch)) throw new Error("Resposta inesperada ao consultar dados do repositório.");
+          results.push(...batch);
+          if (batch.length < 100) return results;
+        }
+        throw new Error("A consulta excedeu 100 páginas; reduza o escopo do repositório antes de continuar.");
+      }
+
+      async function ensureLabels(owner, repo, token, data) {
+        const current = await getAllPages(repoPath(owner, repo, "/labels"), token);
+        const byName = new Map(current.map((label) => [label.name.toLowerCase(), label]));
+        const missing = data.labels_to_create.filter((label) => !byName.has(label.name.toLowerCase()));
+        if (missing.length && !createLabelsInput.checked) {
+          throw new Error(`Faltam ${missing.length} labels no repositório. Habilite a criação automática ou crie-os antes.`);
+        }
+        for (const label of missing) {
+          await githubRequest(repoPath(owner, repo, "/labels"), token, {
+            method: "POST",
+            body: JSON.stringify({ name: label.name, color: label.color, description: label.description })
+          });
+          log(`Label criado: ${label.name}`, "success");
+        }
+        if (!missing.length) log("Labels conferidos; todos já existem.", "success");
+      }
+
+      async function ensureMilestones(owner, repo, token, data) {
+        const current = await getAllPages(repoPath(owner, repo, "/milestones?state=all"), token);
+        const byTitle = new Map(current.map((milestone) => [milestone.title.toLowerCase(), milestone]));
+        const result = new Map();
+        for (const milestone of data.milestones_to_create) {
+          let existing = byTitle.get(milestone.title.toLowerCase());
+          if (!existing && createMilestonesInput.checked) {
+            existing = await githubRequest(repoPath(owner, repo, "/milestones"), token, {
+              method: "POST",
+              body: JSON.stringify({ title: milestone.title, description: milestone.description, due_on: milestone.due_on, state: "open" })
+            });
+            log(`Milestone criado: ${milestone.title}`, "success");
+          }
+          if (existing) result.set(milestone.phase, existing.number);
+          else log(`Milestone não criado: ${milestone.title}; issues ficarão sem milestone.`, "");
+        }
+        if (current.length && result.size === data.milestones_to_create.length) log("Milestones conferidos.", "success");
+        return result;
+      }
+
+      async function githubGraphql(token, query, variables) {
+        const result = await githubRequest("/graphql", token, {
+          method: "POST",
+          body: JSON.stringify({ query, variables })
+        });
+        if (result?.errors?.length) throw new Error(result.errors.map((error) => error.message).join("; "));
+        return result?.data;
+      }
+
+      async function resolveProjectId(reference, repositoryOwner, repositoryName, token) {
+        const value = reference.trim();
+        if (/^PVT_/.test(value)) return value;
+
+        let projectOwner = repositoryOwner;
+        let projectNumber = value.replace(/^#/, "");
+        let projectOwnerType = "";
+        if (/^https?:\/\//i.test(value)) {
+          let projectUrl;
+          try { projectUrl = new URL(value); }
+          catch { throw new Error("A URL do Project V2 é inválida."); }
+          const match = projectUrl.pathname.match(/^\/(users|orgs)\/([^/]+)\/projects\/(\d+)(?:\/|$)/i);
+          if (projectUrl.hostname.toLowerCase() !== "github.com" || !match) {
+            throw new Error("Use uma URL de Project no formato github.com/users/OWNER/projects/NUMERO ou github.com/orgs/OWNER/projects/NUMERO.");
+          }
+          projectOwner = decodeURIComponent(match[2]);
+          projectNumber = match[3];
+          projectOwnerType = match[1].toLowerCase() === "orgs" ? "organization" : "user";
+        }
+        if (!/^\d+$/.test(projectNumber)) {
+          throw new Error("Informe o número do projeto, sua URL do GitHub ou o Node ID que começa com PVT_.");
+        }
+
+        if (!projectOwnerType) {
+          const repository = await githubRequest(repoPath(repositoryOwner, repositoryName, ""), token);
+          projectOwner = repository.owner.login;
+          projectOwnerType = repository.owner.type === "Organization" ? "organization" : "user";
+        }
+        const ownerQuery = projectOwnerType === "organization"
+          ? "organization(login: $owner) { projectV2(number: $number) { id title number } }"
+          : "user(login: $owner) { projectV2(number: $number) { id title number } }";
+        const query = `query($owner: String!, $number: Int!) { ${ownerQuery} }`;
+        const data = await githubGraphql(token, query, { owner: projectOwner, number: Number(projectNumber) });
+        const project = data?.[projectOwnerType]?.projectV2;
+        if (!project?.id) {
+          throw new Error(`Project ${projectOwner} #${projectNumber} não encontrado ou sem acesso. Confira owner/número e a permissão Projects do token.`);
+        }
+        log(`Project identificado: ${project.title} (#${project.number}).`, "success");
+        return project.id;
+      }
+
+      async function ensureSprintField(projectId, token, fieldConfig) {
+        const query = `query($projectId: ID!) {
+          node(id: $projectId) {
+            ... on ProjectV2 {
+              fields(first: 100) {
+                nodes {
+                  ... on ProjectV2IterationField {
+                    id name
+                    configuration {
+                      duration
+                      iterations { id title startDate duration }
+                      completedIterations { id title startDate duration }
+                    }
+                  }
+                  ... on ProjectV2SingleSelectField { id name }
+                  ... on ProjectV2Field { id name dataType }
+                }
+              }
+            }
+          }
+        }`;
+        let data;
+        try {
+          data = await githubGraphql(token, query, { projectId });
+        } catch (error) {
+          if (/GitHub respondeu HTTP (?:401|403|404)/.test(error.message)) {
+            throw new Error(`Não foi possível acessar o Project V2. Confira o número/URL/ID informado, o acesso da sua conta ao projeto e se o token tem Projects: read and write. Detalhe: ${error.message}`);
+          }
+          throw error;
+        }
+        const project = data?.node;
+        if (!project) throw new Error("Project V2 não encontrado ou sem acesso.");
+        let field = project.fields.nodes.find((item) => item.name.toLowerCase() === fieldConfig.name.toLowerCase());
+        if (field && !Array.isArray(field.configuration?.iterations)) {
+          throw new Error(`O campo ${fieldConfig.name} já existe, mas não é do tipo Iteration. Renomeie ou remova esse campo no Project e tente novamente.`);
+        }
+
+        const configuredIterations = field?.configuration?.iterations || [];
+        const completedIterations = field?.configuration?.completedIterations || [];
+        const existingIterations = [...configuredIterations, ...completedIterations];
+        const iterationsByTitle = new Map(existingIterations.map((iteration) => [iteration.title.toLowerCase(), iteration]));
+        const mergedIterations = configuredIterations.map((iteration) => ({
+          id: iteration.id,
+          title: iteration.title,
+          startDate: iteration.startDate,
+          duration: iteration.duration
+        }));
+        for (const iteration of fieldConfig.iterations) {
+          const existing = iterationsByTitle.get(iteration.title.toLowerCase());
+          if (existing && existing.startDate !== iteration.start_date) {
+            throw new Error(`A iteração ${iteration.title} já existe com outra data inicial (${existing.startDate}).`);
+          }
+          if (existing) {
+            const preserved = mergedIterations.find((item) => item.title.toLowerCase() === iteration.title.toLowerCase());
+            if (preserved) preserved.duration = iteration.duration_days;
+          } else {
+            mergedIterations.push({
+              title: iteration.title,
+              startDate: iteration.start_date,
+              duration: iteration.duration_days
+            });
+          }
+        }
+        mergedIterations.sort((left, right) => left.startDate.localeCompare(right.startDate));
+        const startDate = mergedIterations[0]?.startDate || fieldConfig.start_date;
+        const iterationsChanged = mergedIterations.length !== configuredIterations.length || mergedIterations.some((iteration) => {
+          const current = configuredIterations.find((item) => item.id === iteration.id) || configuredIterations.find((item) => item.title === iteration.title);
+          return !current || current.startDate !== iteration.startDate || current.duration !== iteration.duration;
+        });
+        const iterationConfiguration = {
+          startDate,
+          duration: fieldConfig.duration_days,
+          iterations: mergedIterations
+        };
+
+        if (!field) {
+          const created = await githubGraphql(token, `mutation($projectId: ID!, $name: String!, $configuration: ProjectV2IterationFieldConfigurationInput!) {
+            createProjectV2Field(input: { projectId: $projectId, name: $name, dataType: ITERATION, iterationConfiguration: $configuration }) {
+              projectV2Field { ... on ProjectV2IterationField { id name configuration { iterations { id title startDate duration } completedIterations { id title startDate duration } } } }
+            }
+          }`, { projectId, name: fieldConfig.name, configuration: iterationConfiguration });
+          field = created?.createProjectV2Field?.projectV2Field;
+          log(`Campo Iteration criado: ${fieldConfig.name}.`, "success");
+        } else if (iterationsChanged || field.configuration.duration !== fieldConfig.duration_days) {
+          const updated = await githubGraphql(token, `mutation($fieldId: ID!, $configuration: ProjectV2IterationFieldConfigurationInput!) {
+            updateProjectV2Field(input: { fieldId: $fieldId, iterationConfiguration: $configuration }) {
+              projectV2Field { ... on ProjectV2IterationField { id name configuration { iterations { id title startDate duration } completedIterations { id title startDate duration } } } }
+            }
+          }`, { fieldId: field.id, configuration: iterationConfiguration });
+          field = updated?.updateProjectV2Field?.projectV2Field;
+          log(`Iterações adicionadas ao campo ${fieldConfig.name} existente.`, "success");
+        }
+
+        const iterationIds = new Map([
+          ...(field?.configuration?.iterations || []),
+          ...(field?.configuration?.completedIterations || [])
+        ].map((iteration) => [iteration.title.toLowerCase(), iteration.id]));
+        for (const iteration of fieldConfig.iterations) {
+          if (!iterationIds.has(iteration.title.toLowerCase())) throw new Error(`Não foi possível obter a iteração Sprint ${iteration.title} no Project.`);
+        }
+        return { id: field.id, iterationIds };
+      }
+
+      async function getExistingIssues(owner, repo, token) {
+        const existing = await getAllPages(repoPath(owner, repo, "/issues?state=all"), token);
+        return new Map(existing.filter((item) => !item.pull_request).map((item) => [item.title, item]));
+      }
+
+      async function addToProject(projectId, issueNodeId, token) {
+        const data = await githubGraphql(token, "mutation AddItem($projectId: ID!, $contentId: ID!) { addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) { item { id } } }", { projectId, contentId: issueNodeId });
+        return data?.addProjectV2ItemById?.item?.id;
+      }
+
+      async function findProjectItemId(projectId, issueNodeId, token) {
+        const data = await githubGraphql(token, `query($issueId: ID!) {
+          node(id: $issueId) {
+            ... on Issue { projectV2Items(first: 100) { nodes { id project { id } } } }
+          }
+        }`, { issueId: issueNodeId });
+        return data?.node?.projectV2Items?.nodes?.find((item) => item.project.id === projectId)?.id;
+      }
+
+      async function setProjectSprint(projectId, itemId, fieldId, iterationId, token) {
+        await githubGraphql(token, `mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $iterationId: String!) {
+          updateProjectV2ItemFieldValue(input: {
+            projectId: $projectId,
+            itemId: $itemId,
+            fieldId: $fieldId,
+            value: { iterationId: $iterationId }
+          }) { projectV2Item { id } }
+        }`, { projectId, itemId, fieldId, iterationId });
+      }
+
+      async function checkAccess() {
+        try {
+          markBusy(true);
+          setStatus("Conferindo autenticação e repositório…");
+          const { owner, repo, token } = getCredentials();
+          const result = await githubRequest(repoPath(owner, repo, ""), token);
+          if (result?.disabled) throw new Error("O repositório está desabilitado.");
+          setStatus(`Acesso confirmado: ${result.full_name}.`, "success");
+          log(`Acesso ao repositório confirmado: ${result.full_name}.`, "success");
+        } catch (error) {
+          setStatus(error.message, "error");
+          log(error.message, "error");
+        } finally {
+          markBusy(false);
+        }
+      }
+
+      async function importSelected() {
+        let token = "";
+        try {
+          const { owner, repo, token: accessToken } = getCredentials();
+          token = accessToken;
+          const selectedIds = new Set([...issueList.querySelectorAll(".issue-select:checked")].map((box) => box.getAttribute("aria-label")));
+          const selected = plan.issues.filter((issue) => selectedIds.has(`Selecionar ${issue.payload.title}`));
+          if (!selected.length) throw new Error("Selecione ao menos uma issue.");
+          const projectReference = projectIdInput.value.trim();
+
+          const confirmed = window.confirm(`Serão publicados ${selected.length} issues em ${owner}/${repo}. Continuar?`);
+          if (!confirmed) return;
+
+          markBusy(true);
+          activity.replaceChildren();
+          progress.max = selected.length + plan.labels_to_create.length + plan.milestones_to_create.length + (projectReference ? selected.length * 2 + 2 : 0);
+          progress.value = 0;
+          let projectId = "";
+          if (projectReference) {
+            setStatus("Identificando Project V2…");
+            projectId = await resolveProjectId(projectReference, owner, repo, token);
+            progress.value += 1;
+          }
+          setStatus(projectId ? "Conferindo Project V2 e campo Sprint…" : "Preparando labels e milestones…");
+          const sprintField = projectId ? await ensureSprintField(projectId, token, plan.github_project.sprint_field) : null;
+          if (projectId) progress.value += 1;
+
+          setStatus("Preparando labels e milestones…");
+          await ensureLabels(owner, repo, token, plan);
+          progress.value += plan.labels_to_create.length;
+          const milestoneNumbers = await ensureMilestones(owner, repo, token, plan);
+          progress.value += plan.milestones_to_create.length;
+
+          const currentIssues = await getExistingIssues(owner, repo, token);
+          let created = 0;
+          let skipped = 0;
+          let projectLinked = 0;
+          const skipExisting = skipExistingInput.checked;
+
+          for (const issue of selected) {
+            setStatus(`Publicando ${issue.local_id}: ${issue.payload.title}`);
+            let githubIssue = currentIssues.get(issue.payload.title);
+            if (githubIssue && skipExisting) {
+              skipped += 1;
+              log(`${issue.local_id} ignorada: já existe como #${githubIssue.number}.`, "");
+            } else {
+              const milestoneNumber = milestoneNumbers.get(issue.phase);
+              const payload = {
+                title: issue.payload.title,
+                body: issue.payload.body,
+                labels: issue.payload.labels
+              };
+              if (milestoneNumber) payload.milestone = milestoneNumber;
+              githubIssue = await githubRequest(repoPath(owner, repo, "/issues"), token, {
+                method: "POST",
+                body: JSON.stringify(payload)
+              });
+              created += 1;
+              currentIssues.set(githubIssue.title, githubIssue);
+              log(`${issue.local_id} criada: #${githubIssue.number} ${githubIssue.title}`, "success");
+            }
+            progress.value += 1;
+
+            if (projectId && githubIssue?.node_id) {
+              try {
+                let projectItemId;
+                try {
+                  projectItemId = await addToProject(projectId, githubIssue.node_id, token);
+                } catch (error) {
+                  projectItemId = await findProjectItemId(projectId, githubIssue.node_id, token);
+                  if (!projectItemId) throw error;
+                }
+                if (!projectItemId) throw new Error("O GitHub não retornou o item adicionado ao Project.");
+                progress.value += 1;
+                const sprintIterationId = sprintField.iterationIds.get(plan.schedule.sprints.find((item) => item.id === issue.sprint).title.toLowerCase());
+                if (!sprintIterationId) throw new Error(`Iteração Sprint não encontrada para ${issue.sprint}.`);
+                await setProjectSprint(projectId, projectItemId, sprintField.id, sprintIterationId, token);
+                projectLinked += 1;
+                log(`${issue.local_id} adicionada ao Project na opção ${issue.sprint}.`, "success");
+              } catch (error) {
+                log(`${issue.local_id} foi criada/encontrada, mas falhou ao definir a Sprint no Project: ${error.message}`, "error");
+              }
+              progress.value += 1;
+            }
+          }
+
+          const projectMessage = projectId
+            ? `; ${projectLinked} vinculadas ao Project e com Sprint definida`
+            : "; Sprint não preenchida no Project (ID não informado)";
+          setStatus(`Importação concluída: ${created} criadas, ${skipped} ignoradas${projectMessage}.`, "success");
+          log(`Concluído: ${created} criadas, ${skipped} ignoradas${projectMessage}.`, "success");
+        } catch (error) {
+          setStatus(error.message, "error");
+          log(error.message, "error");
+        } finally {
+          tokenInput.value = "";
+          token = "";
+          markBusy(false);
+        }
+      }
+
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        try {
+          jsonInput.value = await file.text();
+          plan = null;
+          importButton.disabled = true;
+          setStatus(`${file.name} carregado. Valide o conteúdo antes de importar.`);
+        } catch {
+          setStatus("Não foi possível ler o arquivo selecionado.", "error");
+        }
+      });
+
+      jsonInput.addEventListener("input", () => {
+        plan = null;
+        importButton.disabled = true;
+        issueCount.textContent = "0";
+        issueList.innerHTML = '<div class="empty-state">Valide o conteúdo para gerar a prévia.</div>';
+        updateSelectionCount();
+      });
+
+      validateButton.addEventListener("click", () => {
+        try {
+          const parsed = validatePlan();
+          renderIssues(parsed);
+          setStatus(`JSON válido: ${parsed.issues.length} issues em ${parsed.schedule.sprints.length} sprints.`, "success");
+        } catch (error) {
+          plan = null;
+          issueList.innerHTML = '<div class="empty-state">Não foi possível gerar a prévia.</div>';
+          issueCount.textContent = "0";
+          updateSelectionCount();
+          setStatus(error.message, "error");
+        }
+      });
+
+      accessButton.addEventListener("click", checkAccess);
+      importButton.addEventListener("click", importSelected);
+      selectAllButton.addEventListener("click", () => {
+        const boxes = [...issueList.querySelectorAll(".issue-select")];
+        const shouldSelect = boxes.some((box) => !box.checked);
+        boxes.forEach((box) => { box.checked = shouldSelect; });
+        updateSelectionCount();
+      });
+      toggleTokenButton.addEventListener("click", () => {
+        const showing = tokenInput.type === "text";
+        tokenInput.type = showing ? "password" : "text";
+        toggleTokenButton.textContent = showing ? "Mostrar" : "Ocultar";
+        toggleTokenButton.setAttribute("aria-label", showing ? "Mostrar token" : "Ocultar token");
+      });
+      window.addEventListener("pagehide", () => { tokenInput.value = ""; });
+    })();
+  </script>
+</body>
+</html>
