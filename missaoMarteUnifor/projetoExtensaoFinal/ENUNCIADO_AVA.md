@@ -1,6 +1,6 @@
 # Projeto Integrador — Evolução do Missão Marte
 
-## Apresentação da atividade
+## 🚀 Apresentação da atividade
 
 Nesta atividade, sua equipe irá evoluir o jogo **Missão Marte Unifor** em etapas, partindo de uma aplicação Java executada no console até chegar a um jogo gráfico multiplataforma, com servidor de ranking e uma melhoria própria.
 
@@ -10,9 +10,9 @@ A equipe organizará o trabalho com Scrum e um quadro Kanban no GitHub Projects.
 
 O link do repositorio de base é [github.com/marcelobezerra-dotcom/T200-ProjArqSist/tree/main/missaoMarteUnifor/projetoExtensaoFinal](https://github.com/marcelobezerra-dotcom/T200-ProjArqSist/tree/main/missaoMarteUnifor/projetoExtensaoFinal)
 
-**Obs:** Pode usar o código existente como base mas não pode copiar.
+> 💡 **Atenção:** use o código existente apenas como referência de estudo; não copie o código.
 
-## Objetivos de aprendizagem
+## 🎯 Objetivos de aprendizagem
 
 Ao concluir a atividade, você será capaz de:
 
@@ -27,7 +27,7 @@ Ao concluir a atividade, você será capaz de:
 - Escrever testes automatizados e documentar decisões, limitações e resultados.
 - Planejar e acompanhar o trabalho em equipe com issues e Kanban.
 
-## Formação das equipes
+## 👥 Formação das equipes
 
 - Grupos existentes, salvo orientação diferente do professor.
 - Cada equipe deve criar um **repositório público no GitHub** para o trabalho.
@@ -35,7 +35,7 @@ Ao concluir a atividade, você será capaz de:
 - Registre a participação de cada integrante nas issues, pull requests e commits. O histórico deve refletir o trabalho realizado, não ser produzido somente ao final.
 - Não inclua senhas, tokens, chaves ou outros segredos no código ou no histórico do Git.
 
-## Parte 1 — Organização do trabalho no GitHub
+## 🗂️ Parte 1 — Organização do trabalho no GitHub
 
 Antes de começar a implementação:
 
@@ -56,19 +56,19 @@ Antes de começar a implementação:
 
 O projeto começa em **03/11/2026**. As sprints e seus períodos seguem o cronograma abaixo:
 
-| Sprint   | Período                |
-| -------- | ----------------------- |
-| Sprint 1 | 03/11/2026 a 08/11/2026 |
-| Sprint 2 | 09/11/2026 a 15/11/2026 |
-| Sprint 3 | 16/11/2026 a 22/11/2026 |
-| Sprint 4 | 23/11/2026 a 29/11/2026 |
-| Sprint 5 | 30/11/2026 a 03/12/2026 |
+| Sprint | Período |
+| ------ | ------- |
+| 🚀 Sprint 1 | 03/11/2026 a 08/11/2026 |
+| 🎮 Sprint 2 | 09/11/2026 a 15/11/2026 |
+| 🌐 Sprint 3 | 16/11/2026 a 22/11/2026 |
+| 📱 Sprint 4 | 23/11/2026 a 29/11/2026 |
+| 🏁 Sprint 5 | 30/11/2026 a 03/12/2026 |
 
-As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em horário a ser definido pelo professor. A equipe deve chegar a esse período com a implementação concluída e reservar a Sprint 5 para estabilização, documentação final, apresentação e fechamento do Kanban. A data de 29/11 corresponde ao último dia da Sprint 4; de 30/11 a 03/12, as apresentações ocorrem durante a Sprint 5.
+> 🗓️ **Apresentações finais:** acontecerão na semana de **30/11 a 03/12/2026**, em horário a ser definido pelo professor. A implementação deve estar concluída antes desse período; reserve a Sprint 5 para estabilização, documentação final, apresentação e fechamento do Kanban. A Sprint 4 termina em 29/11.
 
-## Parte 2 — Roteiro de desenvolvimento
+## 🧭 Parte 2 — Roteiro de desenvolvimento
 
-### Sprint 1 — Compreensão do sistema, arquitetura e Gradle (03/11 a 08/11)
+### 🚀 Sprint 1 — Compreensão do sistema, arquitetura e Gradle (03/11 a 08/11)
 
 **Etapas relacionadas:** Fases 0, 1 e 2 — projeto inicial, refatoração e Gradle.
 
@@ -80,9 +80,9 @@ As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em h
 - Migre a compilação e a execução para Gradle, use o Gradle Wrapper e configure os testes com JUnit 5.
 - Registre as decisões arquiteturais e compare a estrutura antes e depois.
 
-**Entrega da sprint:** aplicação de console executável por Gradle, código organizado, testes executáveis e registro da arquitetura no repositório.
+> 📦 **Entrega da Sprint 1:** aplicação de console executável por Gradle, código organizado, testes executáveis e registro da arquitetura no repositório.
 
-### Sprint 2 — libGDX e interface gráfica (09/11 a 15/11)
+### 🎮 Sprint 2 — libGDX e interface gráfica (09/11 a 15/11)
 
 **Etapas relacionadas:** Fases 3 e 4 — introdução ao libGDX e interface gráfica.
 
@@ -93,9 +93,9 @@ As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em h
 - Implemente entrada, estado visual do jogo e HUD necessários para jogar e compreender a partida.
 - Mantenha o domínio testável sem abrir janela ou depender de OpenGL.
 
-**Entrega da sprint:** jogo gráfico desktop executável, com interface jogável, recursos liberados corretamente e testes automatizados.
+> 📦 **Entrega da Sprint 2:** jogo gráfico desktop executável, com interface jogável, recursos liberados corretamente e testes automatizados.
 
-### Sprint 3 — Servidor e ranking global (16/11 a 22/11)
+### 🌐 Sprint 3 — Servidor e ranking global (16/11 a 22/11)
 
 **Etapa relacionada:** Fase 5 — servidor e ranking.
 
@@ -108,9 +108,9 @@ As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em h
 - Preserve o modo convidado e o ranking local conforme o comportamento definido na versão-base.
 - Registre limitações relevantes, incluindo o fato de que o servidor não executa a lógica do jogo para verificar se uma pontuação enviada pelo cliente é legítima.
 
-**Entrega da sprint:** cliente e servidor executáveis, API documentada, fluxo de cadastro/login/partida/ranking demonstrável e testes do servidor e do cliente.
+> 📦 **Entrega da Sprint 3:** cliente e servidor executáveis, API documentada, fluxo de cadastro/login/partida/ranking demonstrável e testes do servidor e do cliente.
 
-### Sprint 4 — Android e evolução do jogo (23/11 a 29/11)
+### 📱 Sprint 4 — Android e evolução do jogo (23/11 a 29/11)
 
 **Etapas relacionadas:** Fases 6 e 7 — Android e evolução livre.
 
@@ -122,11 +122,11 @@ As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em h
 - Prepare o servidor para publicação e documente a configuração necessária, incluindo variáveis de ambiente, porta, verificação de saúde e persistência de dados.
 - A publicação real em um serviço de nuvem só é obrigatória se o professor determinar.
 
-**Entrega da sprint:** funcionalidades previstas implementadas e testadas, build desktop preservado, APK de debug ou evidência da limitação de ambiente, melhoria documentada e versão candidata à apresentação.
+> 📦 **Entrega da Sprint 4:** funcionalidades previstas implementadas e testadas, build desktop preservado, APK de debug ou evidência da limitação de ambiente, melhoria documentada e versão candidata à apresentação.
 
-### Sprint 5 — Estabilização, apresentação e fechamento (30/11 a 03/12)
+### 🏁 Sprint 5 — Estabilização, apresentação e fechamento (30/11 a 03/12)
 
-**Apresentações finais:** semana de 30/11 a 03/12.
+> 🎤 **Apresentações finais:** semana de 30/11 a 03/12.
 
 - Congele novas funcionalidades antes da apresentação e corrija apenas problemas que impeçam a execução ou a demonstração.
 - Faça uma revisão final dos testes e confirme os comandos de execução a partir do README.
@@ -135,9 +135,9 @@ As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em h
 - Entregue o relatório técnico e os links do repositório e do GitHub Project no AVA até 03/12, salvo orientação diferente do professor.
 - Até 03/12, finalize o quadro Kanban, registre a retrospectiva da equipe e documente limitações ou itens que não puderam ser verificados.
 
-**Entrega da sprint:** apresentação final realizada, documentação e relatório entregues, testes e instruções revisados e Kanban encerrado.
+> 📦 **Entrega da Sprint 5:** apresentação final realizada, documentação e relatório entregues, testes e instruções revisados e Kanban encerrado.
 
-## Parte 3 — Requisitos técnicos e de qualidade
+## 🛠️ Parte 3 — Requisitos técnicos e de qualidade
 
 - Use **Java 17** e os Gradle Wrappers fornecidos ou definidos pelo projeto-base.
 - Preserve o histórico das etapas: não apague a versão inicial nem altere fases anteriores quando a atividade solicitar uma nova pasta ou cópia de trabalho.
@@ -151,7 +151,7 @@ As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em h
 - Execute os testes e comandos de build antes de marcar uma entrega como concluída.
 - Se um requisito não puder ser verificado (por exemplo, falta de SDK Android ou dispositivo), informe o motivo e apresente as evidências alternativas disponíveis.
 
-## Parte 4 — Entregáveis
+## 📋 Parte 4 — Entregáveis
 
 Entregue no AVA:
 
@@ -170,7 +170,7 @@ Entregue no AVA:
    - Participação dos integrantes.
 4. **Demonstração ao vivo** de 10 a 15 minutos, na semana de **30/11 a 03/12/2026**, mostrando o jogo, a integração com o servidor e a melhoria da equipe. O horário será definido pelo professor. Se algum componente não puder ser demonstrado, apresente evidências e explique a limitação.
 
-## Critérios de avaliação
+## 📊 Critérios de avaliação
 
 | Critério                                | Descrição                                                                                                                                     |        Pontos |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------: |
@@ -183,7 +183,7 @@ Entregue no AVA:
 | Gestão, documentação e apresentação | Kanban com histórico real, README/tutorial, relatório e clareza na demonstração                                                             |            10 |
 | **Total**                          |                                                                                                                                                 | **100** |
 
-## Não conformidades que podem reduzir a nota
+## ⚠️ Não conformidades que podem reduzir a nota
 
 As ocorrências abaixo serão consideradas na avaliação do critério relacionado, sem ultrapassar o total de pontos:
 
@@ -195,7 +195,7 @@ As ocorrências abaixo serão consideradas na avaliação do critério relaciona
 - Não é possível identificar a contribuição dos integrantes no histórico do repositório.
 - A melhoria final altera comportamentos anteriores sem teste ou explicação.
 
-## Perguntas para a apresentação
+## ❓ Perguntas para a apresentação
 
 - Como as responsabilidades mudaram entre a versão console e a versão gráfica?
 - Onde ficam as regras de negócio? Como os testes demonstram que elas não dependem da interface?
@@ -207,7 +207,7 @@ As ocorrências abaixo serão consideradas na avaliação do critério relaciona
 - Qual decisão de arquitetura facilitou a melhoria desenvolvida pela equipe?
 - O que vocês fariam diferente se tivessem mais tempo?
 
-## Dicas e boas práticas
+## 💡 Dicas e boas práticas
 
 - Divida tarefas pequenas e mantenha uma pessoa responsável por cada issue.
 - Revise o trabalho de outro integrante antes de fechar uma issue.
@@ -217,7 +217,7 @@ As ocorrências abaixo serão consideradas na avaliação do critério relaciona
 - Atualize o README quando mudar comandos, requisitos ou configurações.
 - Nunca publique credenciais reais. Use dados de teste na demonstração.
 
-## Recursos de apoio
+## 📚 Recursos de apoio
 
 - Repositório do projeto e instruções gerais: [README principal](README.md).
 - Planejamento didático e etapas: [Plano de Aulas do Missão Marte](Plano_de_Aulas_Missao_Marte.md).
