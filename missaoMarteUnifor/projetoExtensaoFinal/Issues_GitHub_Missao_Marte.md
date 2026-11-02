@@ -5,19 +5,19 @@ Este arquivo contém 15 issues prontas para cadastrar no repositório `marcelobe
 ## Configuração sugerida do GitHub Project
 
 - **Nome:** Missão Marte — Sprints de evolução arquitetural
-- **Período:** 02/11/2026 a 04/12/2026
-- **Campo do board:** `Sprint` do tipo **Iteration**, com cinco períodos semanais de 7 dias corridos, iniciando nas segundas-feiras de 02/11 a 30/11. As aulas/trabalho da sprint encerram na sexta-feira; a iteração do GitHub inclui o fim de semana.
+- **Período:** 03/11/2026 a 03/12/2026
+- **Campo do board:** `Sprint` do tipo **Iteration**, com períodos conforme o enunciado: Sprint 1 de 03 a 08/11; Sprints 2 a 4 de 09 a 15/11, 16 a 22/11 e 23 a 29/11; Sprint 5 de 30/11 a 03/12.
 - **Milestones do repositório:** um por fase (`Fase 1` a `Fase 7`), com data de vencimento até o fim do sprint em que a fase é entregue. Cada issue deve ter o milestone da sua fase.
 - **Colunas/status:** Backlog, Pronto, Em andamento, Em revisão, Concluído.
 - **Campos recomendados:** `Sprint` (campo Iteration criado/completado pelo importador), Prioridade (alta/média/baixa) e Status.
 - **Rótulos:** criar apenas os tipos `tipo:analise`, `tipo:desenvolvimento`, `tipo:teste` e `tipo:documentacao`; sprint e fase ficam nos campos/milestones correspondentes.
-- **Primeiro sprint:** 02/11 é feriado nacional no Brasil; planejar a aula prática em 03/11 ou remarcar.
+- **Primeiro sprint:** começa em 03/11; a Sprint 5 é reservada para estabilização, documentação, apresentação e fechamento do Kanban.
 
 As dependências abaixo são referências entre os identificadores deste arquivo. Ao cadastrar, substitua `MM-xx` por `#N` no corpo da issue, quando os números reais estiverem disponíveis.
 
 ---
 
-## Sprint 1 — Base (02–06/11/2026)
+## Sprint 1 — Base (03–08/11/2026)
 
 ### MM-01 — Diagnosticar e registrar a arquitetura do jogo de console
 **Título para GitHub:** `[Fase 1] Mapear arquitetura e comportamento atual do Missão Marte`
@@ -63,7 +63,7 @@ Como equipe, queremos compilar, testar e executar o jogo pelo Gradle Wrapper par
 
 ---
 
-## Sprint 2 — LibGDX e interface (09–13/11/2026)
+## Sprint 2 — LibGDX e interface (09–15/11/2026)
 
 ### MM-04 — Criar a estrutura inicial LibGDX
 **Título para GitHub:** `[Fase 3] Introduzir módulos core e desktop com LibGDX`
@@ -110,7 +110,7 @@ Como jogador, quero visualizar uma partida gráfica com nave, mapa, perigos, inf
 
 ---
 
-## Sprint 3 — Servidor e ranking (16–20/11/2026)
+## Sprint 3 — Servidor e ranking (16–22/11/2026)
 
 ### MM-07 — Implementar API e persistência de usuários
 **Título para GitHub:** `[Fase 5] Criar API Spring Boot com cadastro, login e persistência`
@@ -158,7 +158,7 @@ Como jogador, quero autenticar-me no jogo e enviar/consultar resultados pela API
 
 ---
 
-## Sprint 4 — Android (23–27/11/2026)
+## Sprint 4 — Android e evolução do jogo (23–29/11/2026)
 
 ### MM-10 — Configurar o módulo Android
 **Título para GitHub:** `[Fase 6] Adicionar launcher Android e gerar APK de depuração`
@@ -205,8 +205,6 @@ Como equipe, queremos registrar evidências de execução Android e deixar expl�
 
 ---
 
-## Sprint 5 — Evolução livre (30/11–04/12/2026)
-
 ### MM-13 — Escolher uma melhoria e fechar o escopo
 **Título para GitHub:** `[Fase 7] Definir melhoria, arquitetura e critérios de aceite`
 **Labels:** `tipo:analise`
@@ -235,19 +233,24 @@ Como jogador, quero usar a melhoria definida em MM-13 sem perder os comportament
 - [ ] Testes anteriores continuam passando ou cada alteração necessária é justificada.
 - [ ] Não há dependência de relógio real, janela gráfica ou rede nos testes de regras.
 
+---
+
+## Sprint 5 — Estabilização, apresentação e fechamento (30/11–03/12/2026)
+
 ### MM-15 — Documentar, demonstrar e revisar a evolução
 **Título para GitHub:** `[Fase 7] Documentar arquitetura, testes e demonstração final`
 **Labels:** `tipo:documentacao`, `tipo:teste`
 **Depende de:** MM-14
 
 **Descrição**
-Como equipe e docente, queremos entender como a melhoria foi projetada, validada e demonstrada, incluindo limitações e próximos passos.
+Como equipe e docente, queremos estabilizar e apresentar o sistema, documentando a melhoria, os testes, as limitações e os próximos passos.
 
 **Critérios de aceite**
 - [ ] README/tutorial explicam execução, controles, decisão arquitetural e testes.
-- [ ] A demonstração mostra a melhoria e a preservação dos comportamentos anteriores.
+- [ ] A demonstração final mostra o jogo, a integração com o servidor e a melhoria, além da preservação dos comportamentos anteriores.
 - [ ] O que não foi verificado (por exemplo, aparelho real) está declarado sem alegar validação inexistente.
-- [ ] A revisão final confirma build, testes, documentação e ausência de alterações nas fases anteriores.
+- [ ] README/tutorial e relatório técnico estão revisados e prontos para entrega no AVA até 03/12, salvo orientação diferente do professor.
+- [ ] A revisão final confirma build, testes, documentação e fechamento do Kanban sem alterações indevidas nas fases anteriores.
 
 ---
 
@@ -260,4 +263,3 @@ Como equipe e docente, queremos entender como a melhoria foi projetada, validada
 5. Durante a semana, mova o card conforme o fluxo; ao final do sprint, revise critérios de aceite e feche apenas o que foi demonstrado.
 
 Este arquivo prepara o conteúdo das issues; ele não cria issues nem adiciona cards ao Project automaticamente.
-

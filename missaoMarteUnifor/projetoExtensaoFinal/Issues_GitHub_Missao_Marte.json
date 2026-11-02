@@ -5,16 +5,16 @@
                        "name":  "T200-ProjArqSist"
                    },
     "schedule":  {
-                     "starts_on":  "2026-11-02",
-                     "ends_on":  "2026-12-04",
+                     "starts_on":  "2026-11-03",
+                     "ends_on":  "2026-12-03",
                      "timezone":  "America/Fortaleza",
-                     "note":  "02/11/2026 e feriado nacional no Brasil; realizar a aula em 03/11 ou remarcar.",
+                     "note":  "Datas e fases das sprints seguem o ENUNCIADO_AVA.md; a Sprint 5 e reservada para estabilizacao, documentacao, apresentacao e fechamento do Kanban.",
                      "sprints":  [
                                      {
                                          "id":  "sprint-01",
                                          "title":  "Sprint 1 - Base",
-                                         "starts_on":  "2026-11-02",
-                                         "ends_on":  "2026-11-06",
+                                         "starts_on":  "2026-11-03",
+                                         "ends_on":  "2026-11-08",
                                          "phases":  [
                                                         1,
                                                         2
@@ -24,7 +24,7 @@
                                          "id":  "sprint-02",
                                          "title":  "Sprint 2 - LibGDX e interface",
                                          "starts_on":  "2026-11-09",
-                                         "ends_on":  "2026-11-13",
+                                         "ends_on":  "2026-11-15",
                                          "phases":  [
                                                         3,
                                                         4
@@ -34,28 +34,27 @@
                                          "id":  "sprint-03",
                                          "title":  "Sprint 3 - Servidor e ranking",
                                          "starts_on":  "2026-11-16",
-                                         "ends_on":  "2026-11-20",
+                                         "ends_on":  "2026-11-22",
                                          "phases":  [
                                                         5
                                                     ]
                                      },
                                      {
                                          "id":  "sprint-04",
-                                         "title":  "Sprint 4 - Android",
+                                         "title":  "Sprint 4 - Android e evolucao do jogo",
                                          "starts_on":  "2026-11-23",
-                                         "ends_on":  "2026-11-27",
+                                         "ends_on":  "2026-11-29",
                                          "phases":  [
-                                                        6
+                                                        6,
+                                                        7
                                                     ]
                                      },
                                      {
                                          "id":  "sprint-05",
-                                         "title":  "Sprint 5 - Evolucao livre",
+                                         "title":  "Sprint 5 - Estabilizacao, apresentacao e fechamento",
                                          "starts_on":  "2026-11-30",
-                                         "ends_on":  "2026-12-04",
-                                         "phases":  [
-                                                        7
-                                                    ]
+                                         "ends_on":  "2026-12-03",
+                                         "phases":  []
                                      }
                                  ]
                  },
@@ -70,17 +69,17 @@
                                                  "Em revisao",
                                                  "Concluido"
                                              ],
-                           "note":  "O importador cria ou completa o campo nativo Iteration Sprint no Project V2. Cada iteração dura 7 dias corridos; o período de trabalho e entrega da sprint permanece de segunda a sexta. As fases são milestones do repositório.",
+                           "note":  "O importador cria ou completa o campo nativo Iteration Sprint no Project V2, com duracoes ajustadas aos periodos do ENUNCIADO_AVA.md. As fases sao milestones do repositorio.",
                            "sprint_field":  {
                                                 "name":  "Sprint",
                                                 "duration_days":  7,
-                                                "start_date":  "2026-11-02",
+                                                "start_date":  "2026-11-03",
                                                 "iterations":  [
                                                                    {
                                                                        "id":  "sprint-01",
                                                                        "title":  "Sprint 1 - Base",
-                                                                       "start_date":  "2026-11-02",
-                                                                       "duration_days":  7,
+                                                                       "start_date":  "2026-11-03",
+                                                                       "duration_days":  6,
                                                                        "ends_on":  "2026-11-08"
                                                                    },
                                                                    {
@@ -99,17 +98,17 @@
                                                                    },
                                                                    {
                                                                        "id":  "sprint-04",
-                                                                       "title":  "Sprint 4 - Android",
+                                                                       "title":  "Sprint 4 - Android e evolucao do jogo",
                                                                        "start_date":  "2026-11-23",
                                                                        "duration_days":  7,
                                                                        "ends_on":  "2026-11-29"
                                                                    },
                                                                    {
                                                                        "id":  "sprint-05",
-                                                                       "title":  "Sprint 5 - Evolucao livre",
+                                                                       "title":  "Sprint 5 - Estabilizacao, apresentacao e fechamento",
                                                                        "start_date":  "2026-11-30",
-                                                                       "duration_days":  7,
-                                                                       "ends_on":  "2026-12-06"
+                                                                       "duration_days":  4,
+                                                                       "ends_on":  "2026-12-03"
                                                                    }
                                                                ]
                                             }
@@ -159,43 +158,43 @@
                                      "phase":  1,
                                      "title":  "Fase 1 - Refatoracao arquitetural",
                                      "description":  "Diagnosticar e refatorar o jogo de console preservando seu comportamento.",
-                                     "due_on":  "2026-11-06T23:59:59Z"
+                                     "due_on":  "2026-11-08T23:59:59Z"
                                  },
                                  {
                                      "phase":  2,
                                      "title":  "Fase 2 - Gradle",
                                      "description":  "Configurar Gradle Wrapper e build reproduzivel.",
-                                     "due_on":  "2026-11-06T23:59:59Z"
+                                     "due_on":  "2026-11-08T23:59:59Z"
                                  },
                                  {
                                      "phase":  3,
                                      "title":  "Fase 3 - Estrutura LibGDX",
                                      "description":  "Introduzir ciclo de vida LibGDX e modulos core e desktop.",
-                                     "due_on":  "2026-11-13T23:59:59Z"
+                                     "due_on":  "2026-11-15T23:59:59Z"
                                  },
                                  {
                                      "phase":  4,
                                      "title":  "Fase 4 - Interface grafica",
                                      "description":  "Implementar interface grafica desktop jogavel.",
-                                     "due_on":  "2026-11-13T23:59:59Z"
+                                     "due_on":  "2026-11-15T23:59:59Z"
                                  },
                                  {
                                      "phase":  5,
                                      "title":  "Fase 5 - Servidor e ranking",
                                      "description":  "Entregar API, persistencia, autenticacao, historico e ranking.",
-                                     "due_on":  "2026-11-20T23:59:59Z"
+                                     "due_on":  "2026-11-22T23:59:59Z"
                                  },
                                  {
                                      "phase":  6,
                                      "title":  "Fase 6 - Android",
                                      "description":  "Adaptar o jogo para Android mantendo a versao desktop.",
-                                     "due_on":  "2026-11-27T23:59:59Z"
+                                     "due_on":  "2026-11-29T23:59:59Z"
                                  },
                                  {
                                      "phase":  7,
                                      "title":  "Fase 7 - Evolucao livre",
                                      "description":  "Entregar uma melhoria escolhida, testada e documentada.",
-                                     "due_on":  "2026-12-04T23:59:59Z"
+                                     "due_on":  "2026-12-03T23:59:59Z"
                                  }
                              ],
     "issues":  [
@@ -393,7 +392,7 @@
                    },
                    {
                        "local_id":  "MM-13",
-                       "sprint":  "sprint-05",
+                       "sprint":  "sprint-04",
                        "phase":  7,
                        "depends_on":  [
                                           "MM-12"
@@ -408,7 +407,7 @@
                    },
                    {
                        "local_id":  "MM-14",
-                       "sprint":  "sprint-05",
+                       "sprint":  "sprint-04",
                        "phase":  7,
                        "depends_on":  [
                                           "MM-13"
@@ -431,7 +430,7 @@
                                       ],
                        "payload":  {
                                        "title":  "[Fase 7] Documentar arquitetura, testes e demonstracao final",
-                                       "body":  "## Objetivo\nComo equipe e docente, queremos entender como a melhoria foi projetada, validada e demonstrada, incluindo limitacoes e proximos passos.\n\n## Criterios de aceite\n- [ ] README/tutorial explicam execucao, controles, decisao arquitetural e testes.\n- [ ] A demonstracao mostra a melhoria e a preservacao dos comportamentos anteriores.\n- [ ] O que nao foi verificado (por exemplo, aparelho real) esta declarado sem alegar validacao inexistente.\n- [ ] A revisao final confirma build, testes, documentacao e ausencia de alteracoes nas fases anteriores.\n",
+                                       "body":  "## Objetivo\nComo equipe e docente, queremos estabilizar e apresentar o sistema, documentando a melhoria, os testes, as limitacoes e os proximos passos.\n\n## Criterios de aceite\n- [ ] README/tutorial e relatorio tecnico estao revisados e prontos para entrega no AVA ate 03/12, salvo orientacao diferente do professor.\n- [ ] A demonstracao final mostra o jogo, a integracao com o servidor e a melhoria, alem da preservacao dos comportamentos anteriores.\n- [ ] O que nao foi verificado (por exemplo, aparelho real) esta declarado sem alegar validacao inexistente.\n- [ ] A revisao final confirma build, testes, documentacao e fechamento do Kanban sem alteracoes indevidas nas fases anteriores.\n",
                                        "labels":  [
                                                       "tipo:documentacao",
                                                       "tipo:teste"

@@ -2,11 +2,15 @@
 
 ## Apresentação da atividade
 
-Nesta atividade, sua equipe irá evoluir o jogo **Missão Marte** em etapas, partindo de uma aplicação Java executada no console até chegar a um jogo gráfico multiplataforma, com servidor de ranking e uma melhoria própria.
+Nesta atividade, sua equipe irá evoluir o jogo **Missão Marte Unifor** em etapas, partindo de uma aplicação Java executada no console até chegar a um jogo gráfico multiplataforma, com servidor de ranking e uma melhoria própria.
 
 O desenvolvimento será incremental: em vez de reescrever o sistema, a equipe irá compreender o código existente, preservar o comportamento que já funciona e aplicar novos conceitos de arquitetura e tecnologia. O cliente será desenvolvido em Java com Gradle e libGDX; o servidor será uma aplicação independente com Spring Boot e API REST; a versão móvel usará Android.
 
 A equipe organizará o trabalho com Scrum e um quadro Kanban no GitHub Projects. O código, as decisões técnicas, os testes e o progresso das etapas devem permanecer visíveis no repositório.
+
+O link do repositorio de base é [github.com/marcelobezerra-dotcom/T200-ProjArqSist/tree/main/missaoMarteUnifor/projetoExtensaoFinal](https://github.com/marcelobezerra-dotcom/T200-ProjArqSist/tree/main/missaoMarteUnifor/projetoExtensaoFinal)
+
+**Obs:** Pode usar o código existente como base mas não pode copiar.
 
 ## Objetivos de aprendizagem
 
@@ -25,7 +29,7 @@ Ao concluir a atividade, você será capaz de:
 
 ## Formação das equipes
 
-- Grupos de **2 a 3 integrantes**, salvo orientação diferente do professor.
+- Grupos existentes, salvo orientação diferente do professor.
 - Cada equipe deve criar um **repositório público no GitHub** para o trabalho.
 - Todos os integrantes devem ter permissão de escrita no repositório.
 - Registre a participação de cada integrante nas issues, pull requests e commits. O histórico deve refletir o trabalho realizado, não ser produzido somente ao final.
@@ -39,32 +43,32 @@ Antes de começar a implementação:
 2. Crie um **GitHub Project** associado ao repositório.
 3. Configure as colunas:
 
-| Coluna | Significado |
-|---|---|
-| Backlog | Trabalho identificado, mas ainda não iniciado |
-| Em andamento | Trabalho que está sendo executado |
-| Em revisão | Trabalho concluído pelo responsável, aguardando revisão da equipe |
-| Concluído | Trabalho revisado, validado e aceito |
+| Coluna       | Significado                                                          |
+| ------------ | -------------------------------------------------------------------- |
+| Backlog      | Trabalho identificado, mas ainda não iniciado                       |
+| Em andamento | Trabalho que está sendo executado                                   |
+| Em revisão  | Trabalho concluído pelo responsável, aguardando revisão da equipe |
+| Concluído   | Trabalho revisado, validado e aceito                                 |
 
 4. Registre as tarefas como issues, com responsável, etapa/sprint e critérios de aceite.
 5. Organize as issues em marcos (milestones) conforme o calendário abaixo.
 6. Atualize o quadro conforme o trabalho realmente avança. Uma issue só deve ser concluída depois de revisada e validada.
 
-O projeto começa em **03/11/2026**. Cada sprint dura uma semana, de terça-feira a segunda-feira:
+O projeto começa em **03/11/2026**. As sprints e seus períodos seguem o cronograma abaixo:
 
-| Sprint | Período |
-|---|---|
-| Sprint 1 | 03/11/2026 a 09/11/2026 |
-| Sprint 2 | 10/11/2026 a 16/11/2026 |
-| Sprint 3 | 17/11/2026 a 23/11/2026 |
-| Sprint 4 | 24/11/2026 a 30/11/2026 |
-| Sprint 5 | 01/12/2026 a 07/12/2026 |
+| Sprint   | Período                |
+| -------- | ----------------------- |
+| Sprint 1 | 03/11/2026 a 08/11/2026 |
+| Sprint 2 | 09/11/2026 a 15/11/2026 |
+| Sprint 3 | 16/11/2026 a 22/11/2026 |
+| Sprint 4 | 23/11/2026 a 29/11/2026 |
+| Sprint 5 | 30/11/2026 a 03/12/2026 |
 
-As **apresentações finais acontecerão na semana de 30/11 a 04/12/2026**, em horário a ser definido pelo professor. A equipe deve chegar a esse período com a implementação concluída e reservar a Sprint 5 para estabilização, documentação final, apresentação e fechamento do Kanban. A data de 30/11 corresponde ao último dia da Sprint 4; de 01/12 a 04/12, as apresentações ocorrem durante a Sprint 5.
+As **apresentações finais acontecerão na semana de 30/11 a 03/12/2026**, em horário a ser definido pelo professor. A equipe deve chegar a esse período com a implementação concluída e reservar a Sprint 5 para estabilização, documentação final, apresentação e fechamento do Kanban. A data de 29/11 corresponde ao último dia da Sprint 4; de 30/11 a 03/12, as apresentações ocorrem durante a Sprint 5.
 
 ## Parte 2 — Roteiro de desenvolvimento
 
-### Sprint 1 — Compreensão do sistema, arquitetura e Gradle (03/11 a 09/11)
+### Sprint 1 — Compreensão do sistema, arquitetura e Gradle (03/11 a 08/11)
 
 **Etapas relacionadas:** Fases 0, 1 e 2 — projeto inicial, refatoração e Gradle.
 
@@ -78,7 +82,7 @@ As **apresentações finais acontecerão na semana de 30/11 a 04/12/2026**, em h
 
 **Entrega da sprint:** aplicação de console executável por Gradle, código organizado, testes executáveis e registro da arquitetura no repositório.
 
-### Sprint 2 — libGDX e interface gráfica (10/11 a 16/11)
+### Sprint 2 — libGDX e interface gráfica (09/11 a 15/11)
 
 **Etapas relacionadas:** Fases 3 e 4 — introdução ao libGDX e interface gráfica.
 
@@ -91,7 +95,7 @@ As **apresentações finais acontecerão na semana de 30/11 a 04/12/2026**, em h
 
 **Entrega da sprint:** jogo gráfico desktop executável, com interface jogável, recursos liberados corretamente e testes automatizados.
 
-### Sprint 3 — Servidor e ranking global (17/11 a 23/11)
+### Sprint 3 — Servidor e ranking global (16/11 a 22/11)
 
 **Etapa relacionada:** Fase 5 — servidor e ranking.
 
@@ -106,7 +110,7 @@ As **apresentações finais acontecerão na semana de 30/11 a 04/12/2026**, em h
 
 **Entrega da sprint:** cliente e servidor executáveis, API documentada, fluxo de cadastro/login/partida/ranking demonstrável e testes do servidor e do cliente.
 
-### Sprint 4 — Android e evolução do jogo (24/11 a 30/11)
+### Sprint 4 — Android e evolução do jogo (23/11 a 29/11)
 
 **Etapas relacionadas:** Fases 6 e 7 — Android e evolução livre.
 
@@ -120,16 +124,16 @@ As **apresentações finais acontecerão na semana de 30/11 a 04/12/2026**, em h
 
 **Entrega da sprint:** funcionalidades previstas implementadas e testadas, build desktop preservado, APK de debug ou evidência da limitação de ambiente, melhoria documentada e versão candidata à apresentação.
 
-### Sprint 5 — Estabilização, apresentação e fechamento (01/12 a 07/12)
+### Sprint 5 — Estabilização, apresentação e fechamento (30/11 a 03/12)
 
-**Apresentações finais:** semana de 30/11 a 04/12.
+**Apresentações finais:** semana de 30/11 a 03/12.
 
 - Congele novas funcionalidades antes da apresentação e corrija apenas problemas que impeçam a execução ou a demonstração.
 - Faça uma revisão final dos testes e confirme os comandos de execução a partir do README.
 - Atualize README, tutorial e quadro Kanban.
-- Apresente o sistema entre 30/11 e 04/12, demonstrando o jogo, a integração com o servidor e a melhoria da equipe.
-- Entregue o relatório técnico e os links do repositório e do GitHub Project no AVA até 04/12, salvo orientação diferente do professor.
-- Até 07/12, finalize o quadro Kanban, registre a retrospectiva da equipe e documente limitações ou itens que não puderam ser verificados.
+- Apresente o sistema entre 30/11 e 03/12, demonstrando o jogo, a integração com o servidor e a melhoria da equipe.
+- Entregue o relatório técnico e os links do repositório e do GitHub Project no AVA até 03/12, salvo orientação diferente do professor.
+- Até 03/12, finalize o quadro Kanban, registre a retrospectiva da equipe e documente limitações ou itens que não puderam ser verificados.
 
 **Entrega da sprint:** apresentação final realizada, documentação e relatório entregues, testes e instruções revisados e Kanban encerrado.
 
@@ -164,20 +168,20 @@ Entregue no AVA:
    - Testes realizados e resultados.
    - Dificuldades, limitações e melhorias futuras.
    - Participação dos integrantes.
-4. **Demonstração ao vivo** de 5 a 10 minutos, na semana de **30/11 a 04/12/2026**, mostrando o jogo, a integração com o servidor e a melhoria da equipe. O horário será definido pelo professor. Se algum componente não puder ser demonstrado, apresente evidências e explique a limitação.
+4. **Demonstração ao vivo** de 10 a 15 minutos, na semana de **30/11 a 03/12/2026**, mostrando o jogo, a integração com o servidor e a melhoria da equipe. O horário será definido pelo professor. Se algum componente não puder ser demonstrado, apresente evidências e explique a limitação.
 
 ## Critérios de avaliação
 
-| Critério | Descrição | Pontos |
-|---|---|---:|
-| Evolução funcional do jogo | Etapas executáveis e progressão coerente de console para jogo gráfico, preservando o comportamento esperado | 20 |
-| Arquitetura e qualidade do código | Separação de responsabilidades, aplicação pertinente de princípios/padrões e ausência de acoplamento indevido entre domínio e interface | 20 |
-| Servidor e integração | API REST, persistência, validação, autenticação e integração demonstrável entre cliente e servidor | 15 |
-| Android e experiência de uso | Reutilização do código, controles por toque, adaptação móvel e evidência de build/execução | 10 |
-| Testes e confiabilidade | Testes relevantes, build reproduzível e tratamento de falhas documentado | 15 |
-| Evolução livre | Melhoria funcional, bem integrada à arquitetura e coberta por testes | 10 |
-| Gestão, documentação e apresentação | Kanban com histórico real, README/tutorial, relatório e clareza na demonstração | 10 |
-| **Total** |  | **100** |
+| Critério                                | Descrição                                                                                                                                     |        Pontos |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------: |
+| Evolução funcional do jogo             | Etapas executáveis e progressão coerente de console para jogo gráfico, preservando o comportamento esperado                                  |            20 |
+| Arquitetura e qualidade do código       | Separação de responsabilidades, aplicação pertinente de princípios/padrões e ausência de acoplamento indevido entre domínio e interface |            20 |
+| Servidor e integração                  | API REST, persistência, validação, autenticação e integração demonstrável entre cliente e servidor                                      |            15 |
+| Android e experiência de uso            | Reutilização do código, controles por toque, adaptação móvel e evidência de build/execução                                             |            10 |
+| Testes e confiabilidade                  | Testes relevantes, build reproduzível e tratamento de falhas documentado                                                                       |            15 |
+| Evolução livre                         | Melhoria funcional, bem integrada à arquitetura e coberta por testes                                                                           |            10 |
+| Gestão, documentação e apresentação | Kanban com histórico real, README/tutorial, relatório e clareza na demonstração                                                             |            10 |
+| **Total**                          |                                                                                                                                                 | **100** |
 
 ## Não conformidades que podem reduzir a nota
 

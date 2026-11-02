@@ -13,20 +13,20 @@ Evoluir o Exercício 10, um jogo Java em console, para um jogo gráfico multipla
 6. **Android:** reutilizar módulo compartilhado do LibGDX, adaptar entrada por toque e telas, manter versão desktop e Android no mesmo ecossistema. Controle Bluetooth é opcional. Entrega: jogo funcional em ambas as plataformas, consumindo o mesmo ranking.
 7. **Evolução livre:** equipes adicionam nova fase, inimigos, chefão, dificuldade, personalização da nave ou outra mecânica, justificando as decisões arquiteturais. Multiplayer fica como trabalho futuro.
 
-## Cronograma de cinco sprints semanais
-Período: **02/11/2026 a 04/12/2026**. Cada sprint vai de segunda a sexta e inclui uma aula prática semanal de **100 minutos (9h–10h40)**, acompanhada por uma aula teórica separada. O desenvolvimento e os testes continuam fora da sala. **02/11 é feriado nacional**; a primeira aula prática deve ocorrer em 03/11 ou ser remarcada, sem alterar a janela do sprint.
+## Cronograma de cinco sprints
+Período: **03/11/2026 a 03/12/2026**, conforme o cronograma do [enunciado](ENUNCIADO_AVA.md). Cada sprint inclui uma aula prática semanal de **100 minutos (9h–10h40)**, acompanhada por uma aula teórica separada. O desenvolvimento e os testes continuam fora da sala.
 
 | Sprint | Período | Fases | Aula prática (100 min) | Trabalho extraclasse / entrega |
 |---|---|---|---|---|
-| 1 | 02–06/11 | 1 e 2 | Diagnóstico e diagrama da arquitetura; refatoração orientada por SOLID/GRASP; Gradle Wrapper e ciclo de build | Jogo de console preservado; build, testes e execução reproduzíveis. Issues MM-01 a MM-03 |
-| 2 | 09–13/11 | 3 e 4 | Ciclo de vida LibGDX; `Game`/`Screen`; entrada, sprites, colisões e HUD | Versão desktop jogável com interface gráfica e testes das regras preservadas. Issues MM-04 a MM-06 |
-| 3 | 16–20/11 | 5 | API REST, persistência, autenticação e integração cliente-servidor | Cadastro/login, histórico e ranking funcionando com testes de API e cliente. Issues MM-07 a MM-09 |
-| 4 | 23–27/11 | 6 | Módulo Android, controles por toque, orientação e ciclo de vida | Desktop mantido e APK de depuração gerado; registrar testes em aparelho ou declarar o que não foi verificado. Issues MM-10 a MM-12 |
-| 5 | 30/11–04/12 | 7 | Escolha de uma melhoria de escopo fechado; desenho da solução e estratégia de testes | Uma melhoria implementada, testada, documentada e demonstrada; não tentar concluir várias ideias de evolução livre. Issues MM-13 a MM-15 |
+| 1 | 03–08/11 | 1 e 2 | Diagnóstico e diagrama da arquitetura; refatoração orientada por SOLID/GRASP; Gradle Wrapper e ciclo de build | Jogo de console preservado; build, testes e execução reproduzíveis. Issues MM-01 a MM-03 |
+| 2 | 09–15/11 | 3 e 4 | Ciclo de vida LibGDX; `Game`/`Screen`; entrada, sprites, colisões e HUD | Versão desktop jogável com interface gráfica e testes das regras preservadas. Issues MM-04 a MM-06 |
+| 3 | 16–22/11 | 5 | API REST, persistência, autenticação e integração cliente-servidor | Cadastro/login, histórico e ranking funcionando com testes de API e cliente. Issues MM-07 a MM-09 |
+| 4 | 23–29/11 | 6 e 7 | Módulo Android e controles por toque; escolha e implementação de uma melhoria de escopo fechado | Desktop mantido, APK de depuração gerado e melhoria implementada e testada. Issues MM-10 a MM-14 |
+| 5 | 30/11–03/12 | Fechamento | Estabilização, revisão da documentação, apresentação e fechamento do Kanban | Apresentação e relatório final; testes e instruções revisados. Issue MM-15 |
 
-O cronograma é intensivo: as fases 3 e 4 compartilham um sprint, e a Fase 7 deve ficar limitada a uma melhoria. Se a integração do servidor ou o teste Android excederem a estimativa, priorizar uma entrega mínima funcional e mover refinamentos para o backlog posterior, sem reduzir os testes de regressão.
+O cronograma é intensivo: as fases 3 e 4 compartilham um sprint, e as fases 6 e 7 compartilham outro. A Fase 7 deve ficar limitada a uma melhoria; a Sprint 5 é reservada para estabilização, documentação e apresentação. Se a integração do servidor ou o teste Android excederem a estimativa, priorizar uma entrega mínima funcional e mover refinamentos para o backlog posterior, sem reduzir os testes de regressão.
 
-O backlog detalhado, com títulos, descrições, dependências e critérios de aceite prontos para cadastro no GitHub, está em [`Issues_GitHub_Missao_Marte.md`](Issues_GitHub_Missao_Marte.md). No GitHub Projects, o campo nativo **Iteration `Sprint`** registra os cinco períodos semanais de sete dias corridos; milestones do repositório representam as **Fases 1 a 7**. O trabalho e a entrega da sprint permanecem planejados de segunda a sexta-feira. Sugestão de fluxo Kanban: **Backlog → Pronto → Em andamento → Em revisão → Concluído**.
+O backlog detalhado, com títulos, descrições, dependências e critérios de aceite prontos para cadastro no GitHub, está em [`Issues_GitHub_Missao_Marte.md`](Issues_GitHub_Missao_Marte.md). No GitHub Projects, o campo nativo **Iteration `Sprint`** registra os períodos definidos no enunciado; milestones do repositório representam as **Fases 1 a 7**. Sugestão de fluxo Kanban: **Backlog → Pronto → Em andamento → Em revisão → Concluído**.
 
 ### Estrutura de cada encontro
 - 15 min: objetivos e ligação com teoria.
