@@ -12,6 +12,18 @@ A Fase 2 usa aplicação Java de módulo único e entrada pelo terminal. A Fase 
 | Teclas lidas como texto | `TecladoParaAcao` adapta teclas a `Acao` |
 | Aplicação módulo único | `core` e `lwjgl3` |
 
+## Comparação com a implementação do professor
+
+A referência do professor tem 33 fontes Java, com `GameScreen` como tela de partida, e o README anuncia 39 testes. A implementação do Grupo 07 tem 30 fontes Java de produção e 12 testes. As duas seguem `Game`/`Screen`, backend LWJGL3, entrada convertida em `Acao` e regras fora das telas, mas o escopo visual e a cobertura automatizada não são equivalentes.
+
+| Tema | Professor | Grupo 07 | Decisão e vantagem |
+|---|---|---|---|
+| Ranking | `RankingService` passa para `application` nesta fase, junto com a porta/entrada, para liberar o console do acoplamento. | Serviço, porta e entrada já estavam em `application.ranking` desde a Fase 1; o launcher injeta a persistência em arquivo. | A interface gráfica reutiliza uma política já isolada e mantém o domínio/aplicação independentes da infraestrutura. |
+| Telas de jogo | `GameScreen` recebe uma `GameSession` pronta; `NovaPartidaScreen` aceita nome limitado a 12 caracteres e troca dificuldade com setas. | `PartidaScreen` cria sua sessão usando a fábrica; a dificuldade é escolhida por F1/F2/F3 e o nome aceita até 24 caracteres. | Menos passagem de objetos entre telas e implementação direta do fluxo; como trade-off, a tela de partida conhece a fábrica e a seleção de dificuldade é menos discoverable que as setas. |
+| Apresentação | Grade de 48 px, objetos coloridos por camada, painel lateral separado, mensagens e janela de fim de partida. | Grade 11×11 mais simples, cores/símbolos e indicadores no mesmo espaço da tela. | Menos código de layout para validar a integração do libGDX; visual e legibilidade são mais simples que a referência. |
+| Desenho de entidades | Agrupa objetos em camadas para desenhar fundo, categorias e nave por último. | Usa a ordem da lista renderizável (base, passageiros, perigos e nave) para manter a nave à frente. | Reutiliza o contrato do domínio com menos estruturas auxiliares; não permite configurar cores/camadas de modo tão independente. |
+| Testes | 39 testes anunciados no README do professor, cobrindo build e mais comportamentos do cliente. | 12 testes: 10 de domínio/aplicação/persistência e 2 para teclado/geometria. | Os testes são headless, sem OpenGL; a cobertura é menor e a janela não foi validada visualmente nesta execução. |
+
 ```mermaid
 flowchart LR
   c["console"] --> a["application"] --> d["domain"]
@@ -63,3 +75,9 @@ Comandos previstos:
 2. O ranking continua persistido em arquivo local e a tela mostra somente texto simples.
 3. A seleção de dificuldade usa teclas de função e requer polimento visual/feedback.
 4. A conversão de coordenadas e o desenho assumem raio fixo 5; um viewport configurável e layouts responsivos são possíveis em evolução futura.
+
+## Materiais didáticos e fontes consultadas
+
+**Referências da implementação:** enunciado da Fase 3 (`exercicio10/fases/fase-03-libgdx/docs/fase-03-enunciado.md`), README da fase e fontes da Fase 2 do Grupo 07.
+
+**Referências consultadas na revisão desta documentação:** `missaoMarteUnifor/grasp/apostilas-grasp/tutorial-grasp-missao-marte.md`, `missaoMarteUnifor/apostilas-gof/factory-method/APOSTILA.md` e `missaoMarteUnifor/apostilas-gof/adapter/APOSTILA.md`, para conferir a terminologia e os limites dos padrões citados. `TecladoParaAcao` faz uma conversão entre a interface do teclado e as ações da aplicação; trata-se de uma adaptação simples.

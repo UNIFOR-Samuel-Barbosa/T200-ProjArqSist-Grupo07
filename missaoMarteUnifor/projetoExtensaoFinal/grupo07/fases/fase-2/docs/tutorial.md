@@ -14,6 +14,18 @@ A Fase 1 compilava fontes com `javac` por `build.ps1`; não tinha dependências 
 
 Os fontes Java de produção foram copiados da implementação do Grupo 07 na Fase 1, sem modificação nesta migração.
 
+## Comparação com a implementação do professor
+
+A versão do professor declara que os fontes da Fase 1 são somente movidos para `src/main/java` e entrega 26 classes Java de produção. Aqui também mantivemos os fontes próprios sem alteração na migração, mas a origem é a Fase 1 do Grupo 07, com 24 classes; portanto, eles não são cópias dos fontes do professor. A configuração essencial do build segue os requisitos comuns: Java 17, UTF-8, `application`, JUnit 5 e Wrapper Gradle 8.7.
+
+| Tema | Professor | Grupo 07 | Decisão e vantagem |
+|---|---|---|---|
+| Fontes migrados | 26 classes herdadas da refatoração do professor. | 24 classes herdadas da nossa Fase 1, preservadas por hash nesta migração. | Mantém a continuidade da nossa implementação independente e facilita verificar que a Fase 2 não mudou as regras da Fase 1 do grupo. |
+| Testes | 28 casos de teste na versão de referência (conforme a introdução do enunciado da Fase 3). | 10 casos distribuídos em sete classes de teste. | Priorizamos os fluxos principais e execução rápida; a cobertura é menor que a referência e deixa mais cenários de borda para trabalho futuro. |
+| Ranking | `RankingRepository` e `RankingEntry` ficam em `infrastructure`; a regra Top 10 continua no fluxo de `ConsoleGame`, conforme o enunciado da Fase 3. | Porta, entrada e `RankingService` ficam em `application.ranking` desde a Fase 1 do grupo. | O console e uma futura UI podem reutilizar a regra sem importá-la ou copiá-la da apresentação; antecipamos a separação pedida para a Fase 3. |
+| Build e teclado | Wrapper 8.7, Java 17, `application`, testes JUnit e encaminhamento de `System.in`. | Mesmos requisitos centrais e configurações. | Mantivemos o padrão pedido para que os comandos sejam familiares e o console continue interativo. |
+| Validação no ambiente | O roteiro do professor espera verificação com JDK 17. | Testamos com Gradle 9.7.1/Java 25 disponível, além de registrar a limitação do ambiente. | Foi possível validar compilação, testes e execução sem alterar a versão fixada no Wrapper; falta confirmar com JDK 17. |
+
 ## Configuração Gradle
 
 `settings.gradle` define o nome do projeto. `build.gradle` aplica `application`, configura `mainClass`, Java 17, UTF-8, `mavenCentral()` e `standardInput = System.in`.
@@ -52,3 +64,9 @@ Na execução, `standardInput` encaminha os comandos do terminal ao `Scanner`. O
 1. O projeto ainda é um único módulo; a Fase 3 o separa em `core` e `lwjgl3`.
 2. As regras têm cobertura focada, não exaustiva; os relatórios HTML ajudam a localizar testes e falhas.
 3. A UI continua em console; a Fase 3 troca somente a apresentação e preserva as regras de domínio/aplicação.
+
+## Materiais didáticos e fontes consultadas
+
+**Referências da implementação:** enunciado da Fase 2 (`exercicio10/fases/fase-02-gradle/docs/fase-02-enunciado.md`), configuração Gradle de referência (`exercicio10/fases/fase-02-gradle/build.gradle`) e fontes da Fase 1 do Grupo 07.
+
+**Referências consultadas na revisão desta documentação:** `missaoMarteUnifor/grasp/apostilas-grasp/tutorial-grasp-missao-marte.md`, `missaoMarteUnifor/apostilas-gof/factory-method/APOSTILA.md` e `missaoMarteUnifor/apostilas-gof/adapter/APOSTILA.md`, para contextualizar os padrões mencionados nas fases.

@@ -23,9 +23,24 @@ A versão inicial em `fase-0/src/Main.java` concentrava menu, leitura do teclado
 | Ranking | Acesso direto ao arquivo e ordenação em `Main` | `RankingService` e `RankingRepository` |
 | Inicialização | `Main` misturava configuração e jogo | `Main` instancia dependências |
 
+## Comparação com a implementação do professor
+
+A versão do professor em `exercicio10/fases/fase-01-refatoracao` tem 26 fontes Java e uma decomposição mais granular. A nossa tem 24 fontes Java. Não copiamos os fontes: reorganizamos as responsabilidades com outros contratos e preservamos algumas regras do jogo de partida.
+
+| Tema | Professor | Grupo 07 | Decisão e vantagem |
+|---|---|---|---|
+| Configuração de dificuldade | `ConfiguracaoDificuldade` e `RegrasDificuldade` separam os parâmetros do enum. | Os números ficam nos campos de `Dificuldade`. | Menos classes e consulta direta à configuração; em contrapartida, acrescentar uma dificuldade exige editar o enum. |
+| Perigos | `Perigo` fornece um contrato comum para asteroide e inimigo. | `Asteroide` e `Inimigo` implementam `ObjetoRenderizavel`; `Missao` verifica cada coleção. | Reaproveitamos o contrato que o renderizador já precisa; perdemos a abstração comum para colisão e extensão de perigos. |
+| Ranking | `RankingRepository` e `RankingEntry` ficam em `infrastructure`; a lógica de fluxo/ranking permanece ligada à aplicação de console. | A porta e a entrada ficam em `application.ranking`, com `RankingService`; o arquivo é apenas o adaptador. | A regra pode ser reutilizada pela futura interface gráfica sem depender de infraestrutura. Antecipamos a mudança que a Fase 3 pede. |
+| Quantidades e pontos | Fácil: 4 passageiros/4 asteroides/1 inimigo, 100 pontos; médio: 6/8/3, 70; difícil: 8/12/5, 45. | Fácil: 4/1/1, 30 pontos; médio: 5/2/2, 20; difícil: 5/3/3, 45. | Optamos por manter quantidades e pontuação do código inicial da atividade, em vez da configuração mais exigente da refatoração do professor. Isso reduz a quantidade de entidades e o esforço de uma partida, mas muda o balanceamento e não é equivalência funcional com a Fase 1 do professor. |
+| Posições iniciais | `Missao` cria a base em `(0,0)` e `MissaoFactory` cria a nave também em `(0,0)`; a fábrica reserva essa coordenada para os demais objetos. | A base fica em `(0,0)` e a nave começa em `(0,1)`; a fábrica reserva ambas. | Corrige a sobreposição inicial entre nave e base e deixa a base alcançável por um movimento. |
+| Colisão | `GameSession` remove os perigos na célula atingida e desconta 5 pontos por perigo removido. | A sessão desconta 5 pontos e uma vida, mas mantém asteroides e inimigos na missão. | Mantém os elementos e suas posições simples; a contrapartida é que um perigo pode causar nova colisão se a nave continuar na célula. |
+| Sorteio do cenário | A fábrica encerra após um número máximo de tentativas e informa se não encontrou posição. | `posicaoLivre` repete o sorteio até obter uma posição inédita. | Implementação curta para o mapa fixo atual (25 células e até 13 objetos); para mapas/configurações extensíveis, o limite explícito da solução do professor é mais seguro contra saturação. |
+| Responsabilidades de domínio | `Missao` usa `Perigo` e agrega os elementos renderizáveis. | `Missao` mantém listas tipadas de perigos e passageiros e monta a lista renderizável quando solicitada. | As listas tipadas preservam acesso simples aos elementos usados pelas regras; o custo é reconstruir a visão renderizável ao desenhar. |
+
 ## Regras e escolhas
 
-- Quantidades conservadas: fácil 4 passageiros/1 asteroide/1 inimigo, médio 5/2/2 e difícil 5/3/3; pontuação inicial 30/20/45. A capacidade é igual ao total de passageiros da dificuldade.
+- A capacidade é igual ao total de passageiros da dificuldade.
 - Base em `(0,0)` e nave em `(0,1)`: evita sobreposição no estado inicial.
 - A fábrica reserva as posições da base e da nave e usa um conjunto de coordenadas já ocupadas ao distribuir passageiros e perigos.
 - A capacidade da nave corresponde ao total de passageiros da dificuldade. O embarque remove o passageiro do mapa; a entrega na base esvazia a nave e incrementa o total entregue.
@@ -105,3 +120,9 @@ classDiagram
 ## Como compilar
 
 Na pasta `fase-1`, `.\build.ps1` compila todos os fontes com `javac --release 17 -encoding UTF-8`; `.\build.ps1 -Run` compila e abre o menu. A compilação foi executada com sucesso. Os testes automatizados das regras e da persistência foram adicionados na Fase 2.
+
+## Materiais didáticos e fontes consultadas
+
+**Referências da implementação:** enunciado da Fase 1 (`exercicio10/fases/fase-01-refatoracao/docs/fase-01-enunciado.md`) e código inicial (`exercicio10/fases/fase-0/src/Main.java`).
+
+**Referências consultadas na revisão desta documentação:** `missaoMarteUnifor/grasp/apostilas-grasp/tutorial-grasp-missao-marte.md`, `missaoMarteUnifor/apostilas-gof/factory-method/APOSTILA.md` e `missaoMarteUnifor/apostilas-gof/adapter/APOSTILA.md`, para conferir a terminologia dos padrões citados.
