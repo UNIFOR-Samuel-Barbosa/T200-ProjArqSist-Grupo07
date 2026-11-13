@@ -30,7 +30,7 @@ java -version
 .\gradlew.bat clean build
 ```
 
-O comando compila os dois módulos e executa os testes automatizados do `core`; os testes não abrem uma janela. O relatório está em `core\build\reports\tests\test\index.html`.
+O comando compila os dois módulos e executa os **17 testes automatizados** do `core`; os testes não abrem uma janela. O relatório está em `core\build\reports\tests\test\index.html`.
 
 ## 3. Abrir o jogo
 
@@ -43,7 +43,7 @@ Espere a janela **Missão Marte — Grupo 07** abrir. Se a primeira execução e
 ## 4. Roteiro para jogar e testar
 
 1. No menu, pressione `2` para abrir o ranking e `Enter` para voltar.
-2. Pressione `3` para limpar o ranking; a mensagem “Ranking limpo.” deve aparecer. Pressione `2` para verificar.
+2. Pressione `3` para limpar o ranking; a mensagem “Ranking limpo.” deve aparecer. Pressione `2` para verificar que aparece “Sem pontuacoes registradas.” sem fechar o jogo.
 3. Pressione `1` para nova partida, digite um nome e escolha a dificuldade com `F1` (fácil), `F2` (médio) ou `F3` (difícil). `Backspace` apaga; `Enter` inicia.
 4. Na partida, observe mapa e indicadores. `W/A/S/D` ou setas movem; `E` embarca. Uma tecla sem ação não deve consumir turno.
 5. Embarque os passageiros e volte à base verde no centro para entregá-los. A vitória exige entregar todos; ao vencer, pressione `Enter` para consultar o ranking.

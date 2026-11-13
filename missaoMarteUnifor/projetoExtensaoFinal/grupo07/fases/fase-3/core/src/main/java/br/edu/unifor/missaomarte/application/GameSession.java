@@ -64,19 +64,25 @@ public final class GameSession {
 
         StringBuilder mensagem = new StringBuilder();
         if (acao.movimento()) {
-            missao.nave().mover(acao.dx(), acao.dy(), missao.limite());
+            boolean moveu = missao.nave().mover(acao.dx(), acao.dy(), missao.limite());
             pontuacao--;
             movimentos++;
-            mensagem.append("Nave reposicionada.");
+            if (moveu) {
+                mensagem.append("Nave movida para ").append(missao.nave().posicao()).append('.');
+            } else {
+                mensagem.append("Limite do mapa atingido; nave permanece em ")
+                        .append(missao.nave().posicao()).append('.');
+            }
         } else {
             Passageiro passageiro = missao.passageiros().stream()
                     .filter(p -> p.posicao().equals(missao.nave().posicao()))
                     .findFirst().orElse(null);
             if (passageiro == null) {
-                mensagem.append("Não há passageiro nesta célula.");
+                mensagem.append("Nenhum passageiro na posição ").append(missao.nave().posicao()).append('.');
             } else if (missao.embarcarNaPosicao()) {
                 pontuacao += passageiro.valorResgate();
-                mensagem.append("Passageiro embarcado.");
+                mensagem.append("Passageiro ").append(passageiro.nome()).append(" embarcado em ")
+                        .append(missao.nave().posicao()).append('.');
             } else {
                 mensagem.append("A nave está sem vagas.");
             }

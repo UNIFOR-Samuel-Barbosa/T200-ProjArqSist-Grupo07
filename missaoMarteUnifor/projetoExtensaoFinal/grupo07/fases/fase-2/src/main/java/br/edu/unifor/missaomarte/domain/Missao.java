@@ -94,6 +94,7 @@ public final class Missao {
     }
 
     public void moverInimigos(Random random) {
-        inimigos.forEach(inimigo -> inimigo.mover(random, limite));
+        inimigos.forEach(inimigo -> inimigo.mover(random, limite,
+                destino -> passageiros.stream().noneMatch(passageiro -> passageiro.posicao().equals(destino))));
     }
 }

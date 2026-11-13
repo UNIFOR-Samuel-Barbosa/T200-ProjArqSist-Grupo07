@@ -13,6 +13,14 @@ A versão inicial em `fase-0/src/Main.java` concentrava menu, leitura do teclado
 5. `RankingService` aplica o limite e a ordenação; `RankingRepository` é a porta e `FileRankingRepository` persiste JSON.
 6. `Main` ficou como composition root e `build.ps1` compila com Java 17.
 
+### Correções após o teste manual
+
+- O menu e a tela da partida agora são impressos antes de qualquer chamada bloqueante a `Scanner.hasNextLine()`. Assim, o menu aparece ao iniciar; depois de cada turno, o mapa/indicadores aparecem antes de pedir o próximo comando.
+- A dificuldade é convertida com `Dificuldade.tentarInterpretar`. Entrada desconhecida não seleciona um nível silenciosamente: uma mensagem mostra as opções e a pergunta se repete.
+- O movimento informa a nova coordenada. Ao atingir a borda, a posição mantida é explicada em vez de parecer que a tecla foi ignorada.
+- O passageiro mantém sua posição durante o embarque e o inimigo não pode ocupar uma célula com passageiro, evitando que o símbolo do inimigo o encubra. O embarque sem passageiro também informa a coordenada verificada.
+- Ao abortar ou encerrar a entrada durante uma partida, o jogo informa o retorno ao menu; o menu é redesenhado antes de solicitar outra opção.
+
 | Responsabilidade | Antes | Agora |
 |---|---|---|
 | Fluxo/menu e entrada | Métodos estáticos em `Main` | `console.ConsoleGame` |
@@ -120,6 +128,8 @@ classDiagram
 ## Como compilar
 
 Na pasta `fase-1`, `.\build.ps1` compila todos os fontes com `javac --release 17 -encoding UTF-8`; `.\build.ps1 -Run` compila e abre o menu. A compilação foi executada com sucesso. Os testes automatizados das regras e da persistência foram adicionados na Fase 2.
+
+O fluxo interativo foi verificado com uma entrada controlada: o menu apareceu antes de enviar comandos, uma dificuldade inválida foi recusada, um movimento foi refletido antes da leitura seguinte e `Q` retornou ao menu.
 
 ## Materiais didáticos e fontes consultadas
 

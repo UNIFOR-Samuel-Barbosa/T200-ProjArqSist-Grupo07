@@ -26,6 +26,8 @@
 @rem Set local scope for the variables, and ensure extensions are enabled
 setlocal EnableExtensions
 
+for %%A in (%*) do if /I "%%~A"=="run" chcp 65001 >nul
+
 set DIRNAME=%~dp0
 if "%DIRNAME%"=="" set DIRNAME=.
 @rem This is normally unused

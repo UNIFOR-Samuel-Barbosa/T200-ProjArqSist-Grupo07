@@ -39,7 +39,7 @@ public final class FileRankingRepository implements RankingRepository {
                         Integer.parseInt(matcher.group(2)), unescape(matcher.group(3)),
                         Instant.parse(unescape(matcher.group(4)))));
             }
-            if (!json.isBlank() && entradas.isEmpty() && !json.trim().equals("[]")) {
+            if (!json.isBlank() && entradas.isEmpty() && !json.trim().matches("\\[\\s*\\]")) {
                 throw new IllegalStateException("Formato inválido no arquivo de ranking: " + arquivo);
             }
             return List.copyOf(entradas);

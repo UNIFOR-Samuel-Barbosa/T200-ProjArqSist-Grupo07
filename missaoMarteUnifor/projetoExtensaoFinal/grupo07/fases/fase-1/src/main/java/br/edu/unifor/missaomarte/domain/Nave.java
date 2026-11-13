@@ -50,11 +50,13 @@ public final class Nave implements ObjetoRenderizavel {
         return quantidade;
     }
 
-    public void mover(int dx, int dy, int limite) {
+    public boolean mover(int dx, int dy, int limite) {
         Posicao destino = posicao.deslocar(dx, dy);
-        if (Math.abs(destino.x()) <= limite && Math.abs(destino.y()) <= limite) {
-            posicao = destino;
+        if (Math.abs(destino.x()) > limite || Math.abs(destino.y()) > limite) {
+            return false;
         }
+        posicao = destino;
+        return true;
     }
 
     public void perderVida() {

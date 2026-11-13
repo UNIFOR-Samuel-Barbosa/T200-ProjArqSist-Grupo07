@@ -32,7 +32,7 @@ Rode na pasta `fase-2`:
 .\gradlew.bat test
 ```
 
-`clean build` compila e executa os testes JUnit. O relatório detalhado fica em `build\reports\tests\test\index.html` (abra esse arquivo no navegador). O teste do repositório usa pasta temporária e não grava no ranking do jogo.
+`clean build` compila e executa os **15 testes JUnit**. O relatório detalhado fica em `build\reports\tests\test\index.html` (abra esse arquivo no navegador). O teste do repositório usa pasta temporária e não grava no ranking do jogo.
 
 ## 3. Jogar e testar manualmente
 
@@ -40,8 +40,10 @@ Rode na pasta `fase-2`:
 .\gradlew.bat run --console=plain
 ```
 
+Ao detectar a tarefa `run`, o `gradlew.bat` configura silenciosamente a janela para UTF-8. O aplicativo também usa `file.encoding=UTF-8`, mantendo acentos e caracteres especiais consistentes na entrada e na saída.
+
 1. Digite `8` no menu para testar opção inválida.
-2. Digite `2` para consultar o ranking; `3` limpa e `2` permite conferir que ficou vazio.
+2. Digite `2` para consultar o ranking; `3` limpa e `2` permite conferir que ficou vazio (com a mensagem `Ainda não há pontuações.`).
 3. Digite `1`, informe o piloto e uma dificuldade (`facil`, `medio` ou `dificil`).
 4. Observe mapa e indicadores; use `W/A/S/D` para mover e `E` ou `C` para tentar embarcar na posição atual.
 5. Volte à base central `L` com passageiros a bordo para entregá-los. A missão vence quando todos forem entregues; posições e perigos mudam a cada partida.

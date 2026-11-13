@@ -20,6 +20,7 @@ tasks.withType(JavaCompile).configureEach {
 
 application {
     mainClass = 'br.edu.unifor.missaomarte.Main'
+    applicationDefaultJvmArgs = ['-Dfile.encoding=UTF-8']
 }
 
 tasks.named('run') {

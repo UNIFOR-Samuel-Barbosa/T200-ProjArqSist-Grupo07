@@ -31,11 +31,11 @@ O primeiro comando só compila; o segundo compila e abre o jogo. A saída compil
 
 1. No menu, digite `8` para ver a mensagem de opção inválida.
 2. Digite `2` para consultar o ranking.
-3. Digite `3` para limpar o ranking e, depois, `2` para confirmar que está vazio.
-4. Digite `1`, informe um nome de piloto e escolha `facil`, `medio` ou `dificil`.
+3. Digite `3` para limpar o ranking e, depois, `2` para confirmar que está vazio; deve aparecer `Ainda não há pontuações.` sem encerrar o jogo.
+4. Digite `1`, informe um nome de piloto e escolha `facil`, `medio` ou `dificil`. Se digitar outro texto, o jogo explica as opções válidas e pergunta novamente.
 5. Observe o mapa, a legenda e os indicadores: pontos, vidas, passageiros a bordo, entregues e no mapa.
-6. Use `W`, `A`, `S`, `D` para mover; `E` ou `C` tenta embarcar na célula atual. Uma ação inválida não deve avançar o turno.
-7. Para concluir a missão, embarque os passageiros e volte à base `L`, no centro do mapa. A posição e os perigos são sorteados a cada partida; se quiser apenas encerrar o teste, use `Q`.
+6. Use `W`, `A`, `S`, `D` para mover; após cada comando o mapa e os indicadores devem ser redesenhados antes do próximo prompt. `E` ou `C` tenta embarcar na célula atual. Uma ação inválida não deve avançar o turno.
+7. Para concluir a missão, embarque os passageiros e volte à base `L`, no centro do mapa. A posição e os perigos são sorteados a cada partida; se quiser apenas encerrar o teste, use `Q`. O menu principal deve aparecer novamente com as opções após o aborto.
 8. Depois de uma vitória, volte ao menu e use `2` para consultar a pontuação. `ranking.json` é criado dentro de `fase-1`.
 9. Para sair normalmente, escolha `4`.
 

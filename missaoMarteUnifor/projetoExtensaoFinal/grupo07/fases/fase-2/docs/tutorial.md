@@ -39,9 +39,11 @@ A versão do professor declara que os fontes da Fase 1 são somente movidos para
 
 ## Testes adicionados
 
-`PosicaoTest` verifica imutabilidade/equivalência; `NaveTest` capacidade e entrega; `AcaoTest` conversão e entrada inválida; `MissaoFactoryTest` quantidades e posições distintas; `GameSessionTest` embarque, entrega/vitória, colisão e ação inválida; `FileRankingRepositoryTest` round-trip isolado em `@TempDir`; `RankingServiceTest` ordenação, limite, corte e limpeza.
+`PosicaoTest` verifica imutabilidade/equivalência; `NaveTest` capacidade e entrega; `AcaoTest` conversão e entrada inválida; `DificuldadeTest` valida nomes de dificuldade e rejeita desconhecidos; `MissaoFactoryTest` quantidades e posições distintas; `MissaoTest` impede inimigos de encobrir passageiros; `GameSessionTest` embarque, entrega/vitória, colisão, movimento/bordas e ação inválida; `FileRankingRepositoryTest` round-trip isolado em `@TempDir`; `RankingServiceTest` ordenação, limite, corte e limpeza.
 
-Foram executados `clean test` com Gradle 9.7.1 e Java 25, resultando em **10 testes aprovados**. O relatório HTML é gerado em `build/reports/tests/test/index.html`.
+Foram executados `clean test` com Gradle 9.7.1 e Java 25, resultando em **15 testes aprovados**. O relatório HTML é gerado em `build/reports/tests/test/index.html`.
+
+Os fontes da Fase 1 foram corrigidos nesta rodada e atualizados aqui para manter a migração coerente. Além das regras, a partida agora redesenha o estado antes de pedir o próximo comando, reexibe o menu após aborto e valida a dificuldade em vez de escolher uma opção padrão sem avisar.
 
 ## Validação e ambiente
 

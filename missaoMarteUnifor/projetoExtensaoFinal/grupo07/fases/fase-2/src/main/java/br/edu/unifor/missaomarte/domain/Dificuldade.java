@@ -1,5 +1,8 @@
 package br.edu.unifor.missaomarte.domain;
 
+import java.util.Locale;
+import java.util.Optional;
+
 public enum Dificuldade {
     FACIL("Fácil", 4, 1, 1, 30),
     MEDIO("Médio", 5, 2, 2, 20),
@@ -40,15 +43,15 @@ public enum Dificuldade {
         return rotulo;
     }
 
-    public static Dificuldade interpretar(String texto) {
+    public static Optional<Dificuldade> tentarInterpretar(String texto) {
         if (texto == null) {
-            return MEDIO;
+            return Optional.empty();
         }
-        return switch (texto.trim().toLowerCase()) {
-            case "facil", "fácil" -> FACIL;
-            case "dificil", "difícil" -> DIFICIL;
-            case "medio", "médio" -> MEDIO;
-            default -> MEDIO;
+        return switch (texto.trim().toLowerCase(Locale.ROOT)) {
+            case "facil", "fácil" -> Optional.of(FACIL);
+            case "medio", "médio" -> Optional.of(MEDIO);
+            case "dificil", "difícil" -> Optional.of(DIFICIL);
+            default -> Optional.empty();
         };
     }
 }

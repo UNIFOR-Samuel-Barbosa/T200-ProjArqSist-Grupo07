@@ -57,9 +57,11 @@ O jogo cria câmera, `FitViewport(800, 600)`, `SpriteBatch`, `ShapeRenderer` e `
 
 ## Testes e evidências
 
-Os 10 testes herdados da Fase 2 exercitam regras e ranking sem abrir janela. `MapaGeometriaTest` cobre eixo x, inversão de y e centro da célula; `TecladoParaAcaoTest` cobre letras, setas, embarque, saída e tecla sem ação. `clean build` com Gradle 9.7.1/Java 25 foi concluído com sucesso, incluindo **12 testes**. Os testes não requerem OpenGL.
+Os 15 testes herdados da Fase 2 exercitam regras, validação de dificuldade, ranking e retorno de feedback sem abrir janela. `MapaGeometriaTest` cobre eixo x, inversão de y e centro da célula; `TecladoParaAcaoTest` cobre letras, setas, embarque, saída e tecla sem ação. `clean build` com Gradle 9.7.1/Java 25 foi concluído com sucesso, incluindo **17 testes**. Os testes não requerem OpenGL.
 
 O ambiente não tem JDK 17; o wrapper está fixado em Gradle 8.7 e o build foi validado com Gradle 9.7.1 já instalado em cache. A janela não foi executada/inspecionada visualmente nesta validação; portanto, os logs de lifecycle, controles e proporção precisam de conferência manual com JDK 17 e ambiente gráfico. Ao iniciar, cada tela registra os eventos recebidos com `Gdx.app.log`; a ordem efetiva de `pause()`/`dispose()` só é evidenciada ao fechar a janela.
+
+As correções de feedback da Fase 1 também foram copiadas para o código comum do `core`: os movimentos reportam posição/limite e inimigos não podem ocupar células com passageiros.
 
 Comandos previstos:
 
