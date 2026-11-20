@@ -88,7 +88,8 @@ A regra de dependência continua: só `gdx` e `lwjgl3` importam `com.badlogic`. 
 5. Escrevemos o `MontadorDeAssets`. **Problemas:** (a) o terreno do Gemini era detalhado demais e sem divisão visível entre 121 células; misturamos 80% com a cor média e escurecemos 1 px de borda. (b) O tile tinha cantos arredondados brancos; cortamos 1/9 da borda. (c) O propulsor, desenhado no mesmo quadrado da nave, ficava escondido atrás dela; passou a ser desenhado recuado e girado em torno do centro da célula.
 6. `MundoRenderer`, `HudRenderer`, efeitos, tremor e repetição. A tela ficou só com orquestração (`jogar`, `reagir`, `render`).
 7. Depois de ver as primeiras capturas, as opções do menu em texto solto ficaram feias; geramos no Gemini um botão e uma moldura de painel, e criamos `Botao` + NinePatch.
-8. Para conferir a janela sem jogar à mão, usamos um roteiro local que envia teclas ao jogo com semente 4 e salva PNGs do *framebuffer* (`docs/capturas`). **Problema:** em duas execuções a janela foi minimizada e as capturas saíram 0×0; deixamos a janela de captura sempre no topo e restaurada.
+8. **Problema (achado na Fase 5, corrigido aqui também):** ao apertar `1` no menu, o caractere `'1'` chegava à tela Nova partida depois da troca de tela e entrava no nome. `NovaPartidaScreen` ignora a digitação até desenhar o primeiro quadro.
+9. Para conferir a janela sem jogar à mão, usamos um roteiro local que envia teclas ao jogo com semente 4 e salva PNGs do *framebuffer* (`docs/capturas`). **Problema:** em duas execuções a janela foi minimizada e as capturas saíram 0×0; deixamos a janela de captura sempre no topo e restaurada.
 
 ## 5. Testes e evidências
 

@@ -56,6 +56,9 @@ final class NovaPartidaScreen extends TelaBase {
 
             @Override
             public boolean keyTyped(char character) {
+                if (tempo == 0) {
+                    return true; // caractere da tecla que abriu esta tela (ex.: "1" do menu) chega depois da troca
+                }
                 if (!Character.isISOControl(character) && nome.length() < 24) {
                     nome.append(character);
                 }
