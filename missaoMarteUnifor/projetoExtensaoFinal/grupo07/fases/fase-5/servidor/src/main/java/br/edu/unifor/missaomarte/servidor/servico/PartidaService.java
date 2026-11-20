@@ -48,7 +48,7 @@ public class PartidaService {
     /** Uma linha por jogador (a melhor vitória dele), no máximo 10. */
     @Transactional(readOnly = true)
     public List<Partida> ranking() {
-        // ponytail: lê todas as vitórias positivas e fica com a primeira de cada jogador. Simples e fácil de
+        // Limitação conhecida: lê todas as vitórias positivas e fica com a primeira de cada jogador. Simples e fácil de
         // testar; com muitas partidas, trocar por uma subconsulta "melhor partida por usuário" no banco.
         Set<Long> jaListados = new HashSet<>();
         return partidas.vitoriasEmOrdemDeRanking().stream()
