@@ -1,0 +1,27 @@
+apply plugin: 'application'
+
+dependencies {
+    implementation project(':core')
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    runtimeOnly "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}
+
+application {
+    mainClass = 'br.edu.unifor.missaomarte.lwjgl3.Lwjgl3Launcher'
+}
+
+tasks.named('run') {
+    workingDir = rootProject.projectDir
+    if (System.getProperty('os.name').toLowerCase().contains('mac')) {
+        jvmArgs '-XstartOnFirstThread'
+    }
+}
+
+// Imagens e sons ficam em core/assets (convenção do libGDX) e entram no classpath do launcher.
+sourceSets.main.resources.srcDirs = ['../core/assets']
+
+tasks.named('run') {
+    systemProperty 'missaomarte.semente', System.getProperty('missaomarte.semente', '')
+    systemProperty 'missaomarte.semaudio', System.getProperty('missaomarte.semaudio', 'false')
+    systemProperty 'missaomarte.servidor', System.getProperty('missaomarte.servidor', 'http://localhost:8080')
+}

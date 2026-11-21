@@ -1,0 +1,38 @@
+### Chamadas de exemplo (extensão "REST Client" do VS Code ou IntelliJ HTTP Client).
+### Antes: .\gradlew.bat bootRun --console=plain
+
+@servidor = http://localhost:8080
+
+### 1) Cadastro: 201; 409 se o nome existe (sem diferenciar maiúsculas); 400 se inválido
+POST {{servidor}}/api/usuarios
+Content-Type: application/json
+
+{ "nome": "piloto1", "senha": "senha-de-teste" }
+
+### 2) Login: 200 com o token; 401 "Usuário ou senha inválidos."
+# @name login
+POST {{servidor}}/api/auth/login
+Content-Type: application/json
+
+{ "nome": "piloto1", "senha": "senha-de-teste" }
+
+###
+@token = {{login.response.body.$.token}}
+
+### 3) Registrar partida (o dono vem do token; um campo "usuario" no corpo é ignorado)
+POST {{servidor}}/api/partidas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "dificuldade": "FACIL", "resultado": "VITORIA", "pontuacao": 47, "duracaoSegundos": 21, "movimentos": 33 }
+
+### 4) Histórico do jogador (pagina e tamanho opcionais; tamanho máximo 50)
+GET {{servidor}}/api/partidas/minhas?pagina=0&tamanho=10
+Authorization: Bearer {{token}}
+
+### 5) Ranking global: a melhor vitória de cada jogador, no máximo 10
+GET {{servidor}}/api/ranking
+Authorization: Bearer {{token}}
+
+### 6) Sem token: 401
+GET {{servidor}}/api/ranking
